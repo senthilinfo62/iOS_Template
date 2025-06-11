@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Keychain Sharing -->
+    <key>keychain-access-groups</key>
+    <array>
+        <string>$(AppIdentifierPrefix)com.ios.template</string>
+        <string>$(AppIdentifierPrefix)com.ios.template.shared</string>
+    </array>
+    
+    <!-- App Groups (for sharing data between app and extensions) -->
+    <key>com.apple.security.application-groups</key>
+    <array>
+        <string>group.com.ios.template</string>
+    </array>
+    
+    <!-- Associated Domains (for Universal Links, App Site Association) -->
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+        <string>applinks:yourapp.com</string>
+        <string>applinks:www.yourapp.com</string>
+        <string>webcredentials:yourapp.com</string>
+    </array>
+    
+    <!-- Push Notifications -->
+    <key>aps-environment</key>
+    <string>development</string>
+    <!-- For production, change to: <string>production</string> -->
+    
+    <!-- Background Modes -->
+    <key>com.apple.developer.background-modes</key>
+    <array>
+        <string>background-fetch</string>
+        <string>background-processing</string>
+        <string>remote-notification</string>
+    </array>
+    
+    <!-- Network Extensions (if needed) -->
+    <!-- 
+    <key>com.apple.developer.networking.networkextension</key>
+    <array>
+        <string>packet-tunnel-provider</string>
+        <string>app-proxy-provider</string>
+    </array>
+    -->
+    
+    <!-- HealthKit (if using health data) -->
+    <!-- 
+    <key>com.apple.developer.healthkit</key>
+    <true/>
+    <key>com.apple.developer.healthkit.access</key>
+    <array>
+        <string>health-records</string>
+    </array>
+    -->
+    
+    <!-- HomeKit (if controlling smart home devices) -->
+    <!-- 
+    <key>com.apple.developer.homekit</key>
+    <true/>
+    -->
+    
+    <!-- SiriKit (if integrating with Siri) -->
+    <!-- 
+    <key>com.apple.developer.siri</key>
+    <true/>
+    -->
+    
+    <!-- Apple Pay (if processing payments) -->
+    <!-- 
+    <key>com.apple.developer.in-app-payments</key>
+    <array>
+        <string>merchant.com.ios.template</string>
+    </array>
+    -->
+    
+    <!-- iCloud (if using CloudKit) -->
+    <!-- 
+    <key>com.apple.developer.icloud-services</key>
+    <array>
+        <string>CloudKit</string>
+        <string>CloudDocuments</string>
+    </array>
+    <key>com.apple.developer.icloud-container-identifiers</key>
+    <array>
+        <string>iCloud.com.ios.template</string>
+    </array>
+    <key>com.apple.developer.ubiquity-kvstore-identifier</key>
+    <string>$(TeamIdentifierPrefix)com.ios.template</string>
+    -->
+    
+    <!-- Game Center (if using Game Center) -->
+    <!-- 
+    <key>com.apple.developer.game-center</key>
+    <true/>
+    -->
+    
+    <!-- Wallet (if creating passes) -->
+    <!-- 
+    <key>com.apple.developer.pass-type-identifiers</key>
+    <array>
+        <string>pass.com.ios.template</string>
+    </array>
+    -->
+    
+    <!-- App Sandbox (macOS) -->
+    <!-- 
+    <key>com.apple.security.app-sandbox</key>
+    <true/>
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <key>com.apple.security.network.server</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+    <key>com.apple.security.files.downloads.read-write</key>
+    <true/>
+    -->
+    
+    <!-- Hardened Runtime (macOS) -->
+    <!-- 
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+    <key>com.apple.security.cs.allow-dyld-environment-variables</key>
+    <true/>
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
+    -->
+    
+    <!-- Data Protection -->
+    <key>com.apple.developer.default-data-protection</key>
+    <string>NSFileProtectionComplete</string>
+    
+    <!-- Inter-App Audio (if using audio) -->
+    <!-- 
+    <key>inter-app-audio</key>
+    <true/>
+    -->
+    
+    <!-- Personal VPN (if creating VPN) -->
+    <!-- 
+    <key>com.apple.developer.networking.vpn.api</key>
+    <array>
+        <string>allow-vpn</string>
+    </array>
+    -->
+    
+    <!-- Multipath Networking -->
+    <!-- 
+    <key>com.apple.developer.networking.multipath</key>
+    <true/>
+    -->
+    
+    <!-- NFC Tag Reading -->
+    <!-- 
+    <key>com.apple.developer.nfc.readersession.formats</key>
+    <array>
+        <string>NDEF</string>
+        <string>TAG</string>
+    </array>
+    -->
+    
+    <!-- ClassKit (if educational app) -->
+    <!-- 
+    <key>com.apple.developer.ClassKit-environment</key>
+    <string>development</string>
+    -->
+    
+    <!-- AutoFill Credential Provider -->
+    <!-- 
+    <key>com.apple.developer.authentication-services.autofill-credential-provider</key>
+    <true/>
+    -->
+    
+    <!-- Sign in with Apple -->
+    <!-- 
+    <key>com.apple.developer.applesignin</key>
+    <array>
+        <string>Default</string>
+    </array>
+    -->
+    
+    <!-- Group Activities (SharePlay) -->
+    <!-- 
+    <key>com.apple.developer.group-session</key>
+    <true/>
+    -->
+    
+    <!-- WeatherKit -->
+    <!-- 
+    <key>com.apple.developer.weatherkit</key>
+    <true/>
+    -->
+    
+    <!-- ShazamKit -->
+    <!-- 
+    <key>com.apple.developer.shazamkit</key>
+    <true/>
+    -->
+    
+    <!-- Communication Notifications -->
+    <!-- 
+    <key>com.apple.developer.usernotifications.communication</key>
+    <true/>
+    -->
+    
+    <!-- Time Sensitive Notifications -->
+    <!-- 
+    <key>com.apple.developer.usernotifications.time-sensitive</key>
+    <true/>
+    -->
+    
+    <!-- Critical Alerts -->
+    <!-- 
+    <key>com.apple.developer.usernotifications.critical-alerts</key>
+    <true/>
+    -->
+    
+    <!-- Family Controls -->
+    <!-- 
+    <key>com.apple.developer.family-controls</key>
+    <true/>
+    -->
+    
+    <!-- Managed Settings -->
+    <!-- 
+    <key>com.apple.developer.device-information.user-assigned-device-name</key>
+    <true/>
+    -->
+</dict>
+</plist>

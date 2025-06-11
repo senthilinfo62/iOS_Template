@@ -1,0 +1,182 @@
+// swift-tools-version: 5.9
+// This is a reference Package.swift file for the iOS Template project
+// Note: This project uses Xcode SPM integration, not this Package.swift file
+// This file is provided as a reference for understanding dependencies
+
+import PackageDescription
+
+let package = Package(
+    name: "template",
+    platforms: [
+        .iOS(.v15),
+        .macOS(.v12)
+    ],
+    products: [
+        .library(
+            name: "template",
+            targets: ["template"]
+        ),
+    ],
+    dependencies: [
+        // MARK: - Networking
+        .package(
+            url: "https://github.com/Alamofire/Alamofire.git",
+            from: "5.10.0"
+        ),
+        
+        // MARK: - Security & Keychain
+        .package(
+            url: "https://github.com/kishikawakatsumi/KeychainAccess.git",
+            from: "4.2.0"
+        ),
+        
+        // MARK: - Logging
+        .package(
+            url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+            from: "2.0.0"
+        ),
+        
+        // MARK: - UI & Animation
+        .package(
+            url: "https://github.com/airbnb/lottie-ios.git",
+            from: "4.4.0"
+        ),
+        
+        // MARK: - Testing
+        .package(
+            url: "https://github.com/Quick/Quick.git",
+            from: "7.0.0"
+        ),
+        .package(
+            url: "https://github.com/Quick/Nimble.git",
+            from: "13.0.0"
+        ),
+        
+        // MARK: - Development Tools
+        .package(
+            url: "https://github.com/SwiftGen/SwiftGen.git",
+            from: "6.6.0"
+        ),
+        
+        // MARK: - Code Quality
+        .package(
+            url: "https://github.com/nicklockwood/SwiftFormat.git",
+            from: "0.54.0"
+        ),
+        
+        // MARK: - Data & Persistence
+        .package(
+            url: "https://github.com/stephencelis/SQLite.swift.git",
+            from: "0.15.0"
+        ),
+        
+        // MARK: - Auto Layout (if using UIKit)
+        .package(
+            url: "https://github.com/SnapKit/SnapKit.git",
+            from: "5.7.0"
+        ),
+    ],
+    targets: [
+        .target(
+            name: "template",
+            dependencies: [
+                // Core dependencies
+                "Alamofire",
+                "KeychainAccess",
+                "SwiftyBeaver",
+                
+                // UI dependencies
+                .product(name: "Lottie", package: "lottie-ios"),
+                "SnapKit",
+                
+                // Data dependencies
+                .product(name: "SQLite", package: "SQLite.swift"),
+            ]
+        ),
+        .testTarget(
+            name: "templateTests",
+            dependencies: [
+                "template",
+                "Quick",
+                "Nimble",
+            ]
+        ),
+    ]
+)
+
+/*
+ MARK: - Package Descriptions
+ 
+ Alamofire:
+ - Purpose: HTTP networking library
+ - Use cases: API calls, file uploads/downloads, request/response handling
+ - Why: Most popular and well-maintained networking library for iOS
+ 
+ KeychainAccess:
+ - Purpose: Simple Keychain wrapper for iOS
+ - Use cases: Storing authentication tokens, passwords, sensitive data
+ - Why: Secure storage with simple API, better than UserDefaults for sensitive data
+ 
+ SwiftyBeaver:
+ - Purpose: Colorful, flexible logging platform
+ - Use cases: Debug logging, crash reporting, log file management
+ - Why: Better than print() statements, supports multiple destinations
+ 
+ Lottie:
+ - Purpose: Render After Effects animations natively
+ - Use cases: Loading animations, micro-interactions, complex animations
+ - Why: High-quality animations with small file sizes
+ 
+ Quick & Nimble:
+ - Purpose: Behavior-driven development testing framework
+ - Use cases: Unit tests, integration tests, readable test specifications
+ - Why: More expressive than XCTest, better test organization
+ 
+ SwiftGen:
+ - Purpose: Code generation for resources
+ - Use cases: Type-safe access to images, colors, strings, fonts
+ - Why: Eliminates runtime errors from typos in resource names
+ 
+ SwiftFormat:
+ - Purpose: Code formatting tool
+ - Use cases: Consistent code style, automated formatting
+ - Why: Maintains consistent code style across team
+ 
+ SQLite.swift:
+ - Purpose: Type-safe SQLite wrapper
+ - Use cases: Local database, complex data relationships, offline storage
+ - Why: Type-safe SQL queries, better than Core Data for some use cases
+ 
+ SnapKit:
+ - Purpose: Auto Layout DSL
+ - Use cases: Programmatic UI layout, constraint management
+ - Why: Cleaner syntax than NSLayoutConstraint, better than Interface Builder for complex layouts
+ 
+ MARK: - Integration Notes
+ 
+ This project uses Xcode's built-in SPM integration instead of this Package.swift file.
+ To add these packages:
+ 
+ 1. Open template.xcodeproj in Xcode
+ 2. Go to File → Add Package Dependencies...
+ 3. Enter the package URL
+ 4. Select version requirements
+ 5. Choose target to add to
+ 6. Click Add Package
+ 
+ Current packages can be viewed in:
+ template.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+ 
+ MARK: - Version Strategy
+ 
+ - Use "from" for most packages to get bug fixes and minor updates
+ - Use "upToNextMajor" for stable APIs that rarely change
+ - Use exact versions for packages with frequent breaking changes
+ - Regularly review and update packages for security and performance
+ 
+ MARK: - Platform Support
+ 
+ - iOS 15.0+ (supports latest SwiftUI features)
+ - macOS 12.0+ (for potential Mac Catalyst support)
+ - Consider watchOS and tvOS if needed for your app
+ */

@@ -1,0 +1,307 @@
+name: Code Quality & Lint Checks
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+    types: [ opened, synchronize, reopened ]
+  push:
+    branches: [ develop ]
+
+# Cancel previous runs if a new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+
+jobs:
+  lint-checks:
+    name: Code Quality Checks
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Fetch full history for better analysis
+        
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+        
+    - name: Cache SPM dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          .build
+          ~/Library/Developer/Xcode/DerivedData
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-
+          
+    - name: Cache Homebrew
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/Library/Caches/Homebrew
+          /opt/homebrew/Cellar
+          /opt/homebrew/bin
+        key: ${{ runner.os }}-homebrew-${{ hashFiles('**/Brewfile') }}
+        restore-keys: |
+          ${{ runner.os }}-homebrew-
+          
+    - name: Install SwiftLint
+      run: |
+        if ! command -v swiftlint &> /dev/null; then
+          echo "Installing SwiftLint..."
+          brew install swiftlint
+        else
+          echo "SwiftLint already installed: $(swiftlint version)"
+        fi
+        
+    - name: Install SwiftFormat
+      run: |
+        if ! command -v swiftformat &> /dev/null; then
+          echo "Installing SwiftFormat..."
+          brew install swiftformat
+        else
+          echo "SwiftFormat already installed: $(swiftformat --version)"
+        fi
+        
+    - name: Run SwiftLint
+      run: |
+        echo "🔍 Running SwiftLint..."
+        swiftlint lint --reporter github-actions-logging
+      continue-on-error: true
+      
+    - name: Run SwiftFormat Check
+      run: |
+        echo "🎨 Checking SwiftFormat..."
+        swiftformat --lint . --verbose
+      continue-on-error: true
+      
+    - name: Check for TODO/FIXME comments
+      run: |
+        echo "📝 Checking for TODO/FIXME comments..."
+        
+        # Find TODO and FIXME comments
+        todos=$(find . -name "*.swift" -not -path "./vendor/*" -not -path "./.build/*" -exec grep -Hn "TODO\|FIXME" {} \; || true)
+        
+        if [ -n "$todos" ]; then
+          echo "⚠️ Found TODO/FIXME comments:"
+          echo "$todos"
+          echo "::warning::Found TODO/FIXME comments in the code"
+        else
+          echo "✅ No TODO/FIXME comments found"
+        fi
+        
+    - name: Check for print statements
+      run: |
+        echo "🖨️ Checking for print statements..."
+        
+        # Find print statements (excluding comments and strings)
+        prints=$(find . -name "*.swift" -not -path "./vendor/*" -not -path "./.build/*" -exec grep -Hn "print(" {} \; | grep -v "//.*print(" | grep -v "\".*print(" || true)
+        
+        if [ -n "$prints" ]; then
+          echo "⚠️ Found print statements:"
+          echo "$prints"
+          echo "::warning::Found print statements - consider using proper logging instead"
+        else
+          echo "✅ No print statements found"
+        fi
+        
+    - name: Check for force unwrapping
+      run: |
+        echo "❗ Checking for force unwrapping..."
+        
+        # Find force unwrapping (excluding comments)
+        force_unwraps=$(find . -name "*.swift" -not -path "./vendor/*" -not -path "./.build/*" -exec grep -Hn "!" {} \; | grep -E "\!\s*$|\!\." | grep -v "//" || true)
+        
+        if [ -n "$force_unwraps" ]; then
+          echo "⚠️ Found potential force unwrapping:"
+          echo "$force_unwraps"
+          echo "::warning::Found potential force unwrapping - consider using safe unwrapping"
+        else
+          echo "✅ No obvious force unwrapping found"
+        fi
+        
+    - name: Check file permissions
+      run: |
+        echo "🔒 Checking file permissions..."
+        
+        # Check for executable Swift files (should not be executable)
+        executable_swift=$(find . -name "*.swift" -perm +111 -not -path "./vendor/*" || true)
+        
+        if [ -n "$executable_swift" ]; then
+          echo "⚠️ Found executable Swift files:"
+          echo "$executable_swift"
+          echo "::warning::Swift files should not be executable"
+        else
+          echo "✅ Swift file permissions are correct"
+        fi
+        
+    - name: Check for large files
+      run: |
+        echo "📏 Checking for large files..."
+        
+        # Find files larger than 1MB (excluding vendor and build directories)
+        large_files=$(find . -type f -size +1M -not -path "./vendor/*" -not -path "./.build/*" -not -path "./.git/*" || true)
+        
+        if [ -n "$large_files" ]; then
+          echo "⚠️ Found large files (>1MB):"
+          echo "$large_files"
+          echo "::warning::Large files found - consider using Git LFS for binary assets"
+        else
+          echo "✅ No large files found"
+        fi
+        
+    - name: Validate project structure
+      run: |
+        echo "🏗️ Validating project structure..."
+        
+        # Check for required directories
+        required_dirs=("template" "docs" "scripts")
+        missing_dirs=()
+        
+        for dir in "${required_dirs[@]}"; do
+          if [ ! -d "$dir" ]; then
+            missing_dirs+=("$dir")
+          fi
+        done
+        
+        if [ ${#missing_dirs[@]} -ne 0 ]; then
+          echo "❌ Missing required directories: ${missing_dirs[*]}"
+          echo "::error::Missing required project directories"
+          exit 1
+        else
+          echo "✅ Project structure is valid"
+        fi
+        
+    - name: Check Swift Package Manager
+      run: |
+        echo "📦 Validating Swift Package Manager..."
+        
+        # Check if Package.resolved exists
+        if [ ! -f "template.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" ]; then
+          echo "⚠️ Package.resolved not found"
+          echo "::warning::Package.resolved not found - SPM dependencies may not be locked"
+        else
+          echo "✅ Package.resolved found"
+          
+          # Validate Package.resolved format
+          if ! python3 -c "import json; json.load(open('template.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved'))" 2>/dev/null; then
+            echo "❌ Package.resolved is not valid JSON"
+            echo "::error::Package.resolved is corrupted"
+            exit 1
+          else
+            echo "✅ Package.resolved is valid"
+          fi
+        fi
+        
+    - name: Install xcpretty
+      run: |
+        gem install xcpretty
+
+    - name: Build project for validation
+      run: |
+        echo "🔨 Building project for validation..."
+
+        # Build the project to ensure it compiles
+        xcodebuild -project template.xcodeproj \
+                   -scheme template \
+                   -destination 'platform=iOS Simulator,name=iPhone 16' \
+                   -configuration Debug \
+                   build \
+                   CODE_SIGNING_ALLOWED=NO \
+                   | xcpretty
+                   
+    - name: Run unit tests
+      run: |
+        echo "🧪 Running unit tests..."
+
+        # Check if test targets exist
+        if xcodebuild -project template.xcodeproj -list | grep -q "templateTests"; then
+          echo "Running unit tests..."
+          xcodebuild -project template.xcodeproj \
+                     -scheme template \
+                     -destination 'platform=iOS Simulator,name=iPhone 16' \
+                     -configuration Debug \
+                     test \
+                     CODE_SIGNING_ALLOWED=NO \
+                     | xcpretty
+        else
+          echo "⚠️ No test targets found, skipping tests"
+        fi
+                   
+    - name: Generate lint report
+      if: always()
+      run: |
+        echo "📊 Generating lint report..."
+        
+        # Create a summary report
+        cat > lint-report.md << 'EOF'
+        # 🔍 Code Quality Report
+        
+        ## SwiftLint Results
+        - SwiftLint check: ${{ job.status == 'success' && '✅ Passed' || '❌ Failed' }}
+        
+        ## SwiftFormat Results  
+        - SwiftFormat check: ${{ job.status == 'success' && '✅ Passed' || '❌ Failed' }}
+        
+        ## Additional Checks
+        - TODO/FIXME comments: Checked
+        - Print statements: Checked
+        - Force unwrapping: Checked
+        - File permissions: Checked
+        - Large files: Checked
+        - Project structure: Validated
+        - SPM configuration: Validated
+        - Build validation: ${{ job.status == 'success' && '✅ Passed' || '❌ Failed' }}
+        - Unit tests: ${{ job.status == 'success' && '✅ Passed' || '❌ Failed' }}
+        
+        ## Summary
+        Overall status: ${{ job.status == 'success' && '✅ All checks passed' || '❌ Some checks failed' }}
+        EOF
+        
+        echo "📋 Lint report generated"
+        cat lint-report.md
+        
+    - name: Upload lint report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: lint-report
+        path: lint-report.md
+        retention-days: 30
+        
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          
+          // Read the lint report
+          let report = '';
+          try {
+            report = fs.readFileSync('lint-report.md', 'utf8');
+          } catch (error) {
+            report = '# 🔍 Code Quality Report\n\nReport generation failed.';
+          }
+          
+          // Add workflow run link
+          const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+          report += `\n\n[View detailed results](${runUrl})`;
+          
+          // Comment on PR
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: report
+          });

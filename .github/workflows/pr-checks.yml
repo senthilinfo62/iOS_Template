@@ -1,0 +1,285 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+    types: [ opened, synchronize, reopened, ready_for_review ]
+
+# Cancel previous runs if a new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+
+jobs:
+  # Job 1: Quick lint and format checks
+  quick-checks:
+    name: Quick Lint & Format Checks
+    runs-on: macos-latest
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install SwiftLint
+      run: |
+        brew install swiftlint
+        
+    - name: Install SwiftFormat
+      run: |
+        brew install swiftformat
+        
+    - name: Run SwiftLint (Quick)
+      run: |
+        echo "🔍 Running SwiftLint..."
+        swiftlint lint --reporter github-actions-logging
+      continue-on-error: true
+        
+    - name: Run SwiftFormat Check
+      run: |
+        echo "🎨 Checking code formatting..."
+        swiftformat --lint . --verbose
+      continue-on-error: true
+        
+    - name: Check for merge conflicts
+      run: |
+        echo "🔀 Checking for merge conflict markers..."
+        if grep -r "<<<<<<< HEAD\|=======" --include="*.swift" .; then
+          echo "::error::Merge conflict markers found"
+          exit 1
+        else
+          echo "✅ No merge conflicts found"
+        fi
+
+  # Job 2: Build and test
+  build-and-test:
+    name: Build & Test
+    runs-on: macos-latest
+    needs: quick-checks
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+        
+    - name: Cache SPM dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          .build
+          ~/Library/Developer/Xcode/DerivedData
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-
+          
+    - name: Install xcpretty
+      run: |
+        gem install xcpretty
+
+    - name: Resolve SPM dependencies
+      run: |
+        echo "📦 Resolving SPM dependencies..."
+        xcodebuild -resolvePackageDependencies -project template.xcodeproj
+
+    - name: Build project
+      run: |
+        echo "🔨 Building project..."
+        xcodebuild -project template.xcodeproj \
+                   -scheme template \
+                   -destination 'platform=iOS Simulator,name=iPhone 16' \
+                   -configuration Debug \
+                   build \
+                   CODE_SIGNING_ALLOWED=NO \
+                   | xcpretty
+                   
+    - name: Run unit tests
+      run: |
+        echo "🧪 Running unit tests..."
+
+        # Check if test targets exist
+        if xcodebuild -project template.xcodeproj -list | grep -q "templateTests"; then
+          echo "Running unit tests..."
+          xcodebuild -project template.xcodeproj \
+                     -scheme template \
+                     -destination 'platform=iOS Simulator,name=iPhone 16' \
+                     -configuration Debug \
+                     test \
+                     CODE_SIGNING_ALLOWED=NO \
+                     -enableCodeCoverage YES \
+                     | xcpretty
+        else
+          echo "⚠️ No test targets found, skipping tests"
+        fi
+                   
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: |
+          ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
+        retention-days: 7
+
+  # Job 3: Security checks
+  security-checks:
+    name: Security Scan
+    runs-on: macos-latest
+    needs: quick-checks
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run security checks
+      run: |
+        echo "🔒 Running security checks..."
+        
+        # Check for secrets
+        if grep -r -i "password\|secret\|key\|token" --include="*.swift" . | grep -v "//"; then
+          echo "::warning::Potential secrets found in code"
+        fi
+        
+        # Check for HTTP URLs
+        if grep -r "http://" --include="*.swift" .; then
+          echo "::warning::HTTP URLs found - consider using HTTPS"
+        fi
+        
+        echo "✅ Security checks completed"
+
+  # Job 4: Code quality metrics
+  code-quality:
+    name: Code Quality Metrics
+    runs-on: macos-latest
+    needs: quick-checks
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Calculate code metrics
+      run: |
+        echo "📊 Calculating code metrics..."
+        
+        # Count lines of code
+        swift_files=$(find . -name "*.swift" -not -path "./vendor/*" -not -path "./.build/*")
+        total_lines=$(cat $swift_files | wc -l)
+        total_files=$(echo "$swift_files" | wc -l)
+        
+        echo "📈 Code Metrics:"
+        echo "  - Swift files: $total_files"
+        echo "  - Total lines: $total_lines"
+        echo "  - Average lines per file: $((total_lines / total_files))"
+        
+        # Check for large files
+        large_files=$(find . -name "*.swift" -not -path "./vendor/*" -exec wc -l {} \; | awk '$1 > 300 {print $2 " (" $1 " lines)"}')
+        if [ -n "$large_files" ]; then
+          echo "⚠️ Large files (>300 lines):"
+          echo "$large_files"
+          echo "::warning::Large files found - consider refactoring"
+        fi
+        
+        # Check complexity (basic cyclomatic complexity)
+        complex_functions=$(grep -r "if\|switch\|for\|while\|catch" --include="*.swift" . | wc -l)
+        echo "  - Complexity indicators: $complex_functions"
+
+  # Job 5: Documentation check
+  documentation-check:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check documentation
+      run: |
+        echo "📚 Checking documentation..."
+        
+        # Check if README is updated
+        if git diff --name-only origin/main...HEAD | grep -q "README.md"; then
+          echo "✅ README.md was updated"
+        else
+          echo "ℹ️ README.md was not updated"
+        fi
+        
+        # Check for documentation files
+        doc_files=$(find docs -name "*.md" 2>/dev/null || true)
+        if [ -n "$doc_files" ]; then
+          echo "✅ Documentation files found:"
+          echo "$doc_files"
+        else
+          echo "⚠️ No documentation files found in docs/"
+        fi
+
+  # Job 6: PR summary
+  pr-summary:
+    name: PR Summary
+    runs-on: ubuntu-latest
+    needs: [quick-checks, build-and-test, security-checks, code-quality, documentation-check]
+    if: always() && github.event.pull_request.draft == false
+    
+    steps:
+    - name: Generate PR summary
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const jobs = [
+            { name: 'Quick Checks', result: '${{ needs.quick-checks.result }}' },
+            { name: 'Build & Test', result: '${{ needs.build-and-test.result }}' },
+            { name: 'Security Checks', result: '${{ needs.security-checks.result }}' },
+            { name: 'Code Quality', result: '${{ needs.code-quality.result }}' },
+            { name: 'Documentation', result: '${{ needs.documentation-check.result }}' }
+          ];
+          
+          const getEmoji = (result) => {
+            switch(result) {
+              case 'success': return '✅';
+              case 'failure': return '❌';
+              case 'cancelled': return '⏹️';
+              case 'skipped': return '⏭️';
+              default: return '❓';
+            }
+          };
+          
+          const allPassed = jobs.every(job => job.result === 'success');
+          const summary = `# 🔍 Pull Request Checks Summary
+          
+          ${allPassed ? '🎉 All checks passed!' : '⚠️ Some checks need attention'}
+          
+          ## Check Results
+          ${jobs.map(job => `- ${getEmoji(job.result)} **${job.name}**: ${job.result}`).join('\n')}
+          
+          ## Next Steps
+          ${allPassed 
+            ? '✅ This PR is ready for review and merge!' 
+            : '❗ Please fix the failing checks before requesting review.'}
+          
+          ---
+          *Automated checks by GitHub Actions*`;
+          
+          // Comment on PR
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: summary
+          });
+          
+          // Set overall status
+          if (!allPassed) {
+            core.setFailed('Some PR checks failed');
+          }
