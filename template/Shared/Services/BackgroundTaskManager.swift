@@ -25,12 +25,20 @@ final class BackgroundTaskManager {
     func registerBackgroundTasks() {
         // Register background app refresh
         BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundRefreshTaskID, using: nil) { task in
-            self.handleBackgroundRefresh(task as! BGAppRefreshTask)
+            guard let refreshTask = task as? BGAppRefreshTask else {
+                self.logger.error("⏰ Invalid task type for background refresh")
+                return
+            }
+            self.handleBackgroundRefresh(refreshTask)
         }
 
         // Register background processing
         BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundProcessingTaskID, using: nil) { task in
-            self.handleBackgroundProcessing(task as! BGProcessingTask)
+            guard let processingTask = task as? BGProcessingTask else {
+                self.logger.error("⏰ Invalid task type for background processing")
+                return
+            }
+            self.handleBackgroundProcessing(processingTask)
         }
 
         logger.info("⏰ Background tasks registered")
