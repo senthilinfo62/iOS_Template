@@ -1,0 +1,76 @@
+/* 
+  Localizable.strings
+  template
+
+  Created by Complete iOS Setup Script.
+*/
+
+// MARK: - General
+"app_name" = "iOS Template";
+"ok" = "OK";
+"cancel" = "Cancel";
+"done" = "Done";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"close" = "Close";
+"retry" = "Retry";
+"loading" = "Loading...";
+"error" = "Error";
+"success" = "Success";
+
+// MARK: - Navigation
+"home" = "Home";
+"settings" = "Settings";
+"profile" = "Profile";
+"back" = "Back";
+
+// MARK: - Home Screen
+"home_title" = "Welcome to iOS Template";
+"home_subtitle" = "A modern iOS app template";
+"home_fetch_button" = "Fetch Data";
+"home_details_button" = "Go to Details";
+"home_settings_button" = "Settings";
+
+// MARK: - Settings Screen
+"settings_title" = "Settings";
+"settings_theme_section" = "Theme";
+"settings_theme_system" = "System";
+"settings_theme_light" = "Light";
+"settings_theme_dark" = "Dark";
+"settings_current_theme" = "Current Theme";
+"settings_about_section" = "About";
+"settings_version" = "Version";
+"settings_build" = "Build";
+
+// MARK: - Error Messages
+"error_network" = "Network connection error";
+"error_server" = "Server error occurred";
+"error_unknown" = "An unknown error occurred";
+"error_timeout" = "Request timed out";
+"error_unauthorized" = "Unauthorized access";
+
+// MARK: - Permissions
+"permission_camera_title" = "Camera Access";
+"permission_camera_message" = "This app needs camera access to take photos";
+"permission_photos_title" = "Photo Library Access";
+"permission_photos_message" = "This app needs photo library access to select images";
+"permission_location_title" = "Location Access";
+"permission_location_message" = "This app needs location access for location-based features";
+
+// MARK: - Push Notifications
+"notification_permission_title" = "Enable Notifications";
+"notification_permission_message" = "Get notified about important updates";
+"notification_settings" = "Notification Settings";
+
+// MARK: - Biometric Authentication
+"biometric_reason" = "Authenticate to access secure content";
+"biometric_fallback" = "Use Passcode";
+"biometric_not_available" = "Biometric authentication not available";
+
+// MARK: - App Store
+"rate_app" = "Rate This App";
+"share_app" = "Share App";
+"feedback" = "Send Feedback";
+"update_available" = "Update Available";
+"update_message" = "A new version is available on the App Store";

@@ -106,3 +106,8 @@ vendor/bundle
 *.mobileprovision
 *.cer
 *.certSigningRequest
+
+# Environment Configuration
+.env.development
+.env.staging
+.env.production

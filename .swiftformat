@@ -1,0 +1,37 @@
+# SwiftFormat Configuration for iOS Template
+
+# Version
+--swiftversion 5.0
+
+# Rules to enable
+--enable isEmpty
+--enable sortedImports
+--enable duplicateImports
+--enable unusedArguments
+--enable redundantSelf
+--enable redundantReturn
+--enable redundantParens
+--enable redundantGet
+--enable redundantInit
+--enable redundantVoidReturnType
+
+# Rules to disable
+--disable wrapMultilineStatementBraces
+
+# Options
+--indent 4
+--linebreaks lf
+--maxwidth 120
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--closingparen balanced
+--commas inline
+--trimwhitespace always
+--insertlines enabled
+--removelines enabled
+--allman false
+--stripunusedargs closure-only
+--self remove
+--importgrouping testable-bottom
+--ifdef no-indent
