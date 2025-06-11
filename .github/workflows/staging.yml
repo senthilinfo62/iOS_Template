@@ -31,7 +31,6 @@ jobs:
     - name: Install dependencies
       run: |
         gem install bundler -v '~> 2.0'
-        bundle update --bundler
         bundle install
 
     - name: Run tests
@@ -66,7 +65,6 @@ jobs:
     - name: Install dependencies
       run: |
         gem install bundler -v '~> 2.0'
-        bundle update --bundler
         bundle install
         
     - name: Setup certificates

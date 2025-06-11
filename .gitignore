@@ -91,7 +91,6 @@ iOSInjectionProject/
 
 # Bundler
 vendor/bundle
-Gemfile.lock
 
 # Mac
 .DS_Store
