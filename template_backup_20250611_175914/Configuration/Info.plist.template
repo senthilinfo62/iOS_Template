@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- App Transport Security Configuration -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <!-- Disable arbitrary loads for security -->
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+        
+        <!-- Exception domains for your APIs -->
+        <key>NSExceptionDomains</key>
+        <dict>
+            <!-- Example: Allow HTTP for development/staging -->
+            <key>staging-api.yourapp.com</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSExceptionMinimumTLSVersion</key>
+                <string>TLSv1.0</string>
+            </dict>
+            
+            <!-- JSONPlaceholder for demo API -->
+            <key>jsonplaceholder.typicode.com</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <false/>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
+    
+    <!-- Privacy Usage Descriptions -->
+    <!-- Camera Access -->
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs camera access to take photos for your profile and content.</string>
+    
+    <!-- Photo Library Access -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs photo library access to select and save images.</string>
+    
+    <!-- Location Access -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs location access to provide location-based features and services.</string>
+    
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs location access to provide location-based features and background services.</string>
+    
+    <!-- Microphone Access -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app needs microphone access to record audio for voice messages and calls.</string>
+    
+    <!-- Contacts Access -->
+    <key>NSContactsUsageDescription</key>
+    <string>This app needs contacts access to help you connect with friends and family.</string>
+    
+    <!-- Calendar Access -->
+    <key>NSCalendarsUsageDescription</key>
+    <string>This app needs calendar access to schedule events and reminders.</string>
+    
+    <!-- Reminders Access -->
+    <key>NSRemindersUsageDescription</key>
+    <string>This app needs reminders access to create and manage your tasks.</string>
+    
+    <!-- Motion & Fitness -->
+    <key>NSMotionUsageDescription</key>
+    <string>This app needs motion access to track your activity and fitness data.</string>
+    
+    <!-- Health Data -->
+    <key>NSHealthShareUsageDescription</key>
+    <string>This app needs health data access to provide personalized health insights.</string>
+    
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>This app needs to update health data to track your wellness progress.</string>
+    
+    <!-- Face ID / Touch ID -->
+    <key>NSFaceIDUsageDescription</key>
+    <string>This app uses Face ID for secure authentication and app access.</string>
+    
+    <!-- Bluetooth -->
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>This app needs Bluetooth access to connect with nearby devices and accessories.</string>
+    
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>This app needs Bluetooth access to communicate with external devices.</string>
+    
+    <!-- Network -->
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>This app needs local network access to discover and connect to devices on your network.</string>
+    
+    <!-- Tracking (iOS 14.5+) -->
+    <key>NSUserTrackingUsageDescription</key>
+    <string>This app would like to track your activity across other companies' apps and websites to provide personalized ads and content.</string>
+    
+    <!-- Siri -->
+    <key>NSSiriUsageDescription</key>
+    <string>This app integrates with Siri to provide voice-activated features and shortcuts.</string>
+    
+    <!-- Speech Recognition -->
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>This app needs speech recognition to convert your voice to text.</string>
+    
+    <!-- Apple Music -->
+    <key>NSAppleMusicUsageDescription</key>
+    <string>This app needs Apple Music access to play and manage your music library.</string>
+    
+    <!-- Desktop Folder Access (macOS) -->
+    <key>NSDesktopFolderUsageDescription</key>
+    <string>This app needs desktop folder access to save and organize your files.</string>
+    
+    <!-- Documents Folder Access (macOS) -->
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>This app needs documents folder access to save and manage your documents.</string>
+    
+    <!-- Downloads Folder Access (macOS) -->
+    <key>NSDownloadsFolderUsageDescription</key>
+    <string>This app needs downloads folder access to save downloaded files.</string>
+    
+    <!-- Network Volumes Access (macOS) -->
+    <key>NSNetworkVolumesUsageDescription</key>
+    <string>This app needs network volumes access to connect to shared network resources.</string>
+    
+    <!-- Removable Volumes Access (macOS) -->
+    <key>NSRemovableVolumesUsageDescription</key>
+    <string>This app needs removable volumes access to work with external storage devices.</string>
+    
+    <!-- File Provider Domain Access -->
+    <key>NSFileProviderDomainUsageDescription</key>
+    <string>This app needs file provider access to manage and sync your files across devices.</string>
+    
+    <!-- App Configuration -->
+    <!-- Background Modes -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>background-fetch</string>
+        <string>background-processing</string>
+        <string>remote-notification</string>
+    </array>
+    
+    <!-- URL Schemes -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>com.ios.template.url</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>iostemplate</string>
+            </array>
+        </dict>
+    </array>
+    
+    <!-- Document Types -->
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>JSON Document</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.json</string>
+            </array>
+        </dict>
+    </array>
+    
+    <!-- Exported Type Identifiers -->
+    <key>UTExportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeIdentifier</key>
+            <string>com.ios.template.document</string>
+            <key>UTTypeDescription</key>
+            <string>iOS Template Document</string>
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>public.data</string>
+            </array>
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>template</string>
+                </array>
+            </dict>
+        </dict>
+    </array>
+    
+    <!-- App Store Configuration -->
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+    
+    <!-- Prevent backup of sensitive data -->
+    <key>NSSupportsAutomaticTermination</key>
+    <true/>
+    
+    <key>NSSupportsSuddenTermination</key>
+    <true/>
+</dict>
+</plist>

@@ -1,0 +1,76 @@
+/* 
+  Localizable.strings
+  template
+
+  Created by Complete iOS Setup Script.
+*/
+
+// MARK: - General
+"app_name" = "iOSテンプレート";
+"ok" = "OK";
+"cancel" = "キャンセル";
+"done" = "完了";
+"save" = "保存";
+"delete" = "削除";
+"edit" = "編集";
+"close" = "閉じる";
+"retry" = "再試行";
+"loading" = "読み込み中...";
+"error" = "エラー";
+"success" = "成功";
+
+// MARK: - Navigation
+"home" = "ホーム";
+"settings" = "設定";
+"profile" = "プロフィール";
+"back" = "戻る";
+
+// MARK: - Home Screen
+"home_title" = "iOSテンプレートへようこそ";
+"home_subtitle" = "モダンなiOSアプリテンプレート";
+"home_fetch_button" = "データを取得";
+"home_details_button" = "詳細へ";
+"home_settings_button" = "設定";
+
+// MARK: - Settings Screen
+"settings_title" = "設定";
+"settings_theme_section" = "テーマ";
+"settings_theme_system" = "システム";
+"settings_theme_light" = "ライト";
+"settings_theme_dark" = "ダーク";
+"settings_current_theme" = "現在のテーマ";
+"settings_about_section" = "アプリについて";
+"settings_version" = "バージョン";
+"settings_build" = "ビルド";
+
+// MARK: - Error Messages
+"error_network" = "ネットワーク接続エラー";
+"error_server" = "サーバーエラーが発生しました";
+"error_unknown" = "不明なエラーが発生しました";
+"error_timeout" = "リクエストがタイムアウトしました";
+"error_unauthorized" = "認証されていないアクセス";
+
+// MARK: - Permissions
+"permission_camera_title" = "カメラアクセス";
+"permission_camera_message" = "このアプリは写真を撮るためにカメラアクセスが必要です";
+"permission_photos_title" = "フォトライブラリアクセス";
+"permission_photos_message" = "このアプリは画像を選択するためにフォトライブラリアクセスが必要です";
+"permission_location_title" = "位置情報アクセス";
+"permission_location_message" = "このアプリは位置情報ベースの機能のために位置情報アクセスが必要です";
+
+// MARK: - Push Notifications
+"notification_permission_title" = "通知を有効にする";
+"notification_permission_message" = "重要な更新について通知を受け取る";
+"notification_settings" = "通知設定";
+
+// MARK: - Biometric Authentication
+"biometric_reason" = "セキュアなコンテンツにアクセスするために認証してください";
+"biometric_fallback" = "パスコードを使用";
+"biometric_not_available" = "生体認証が利用できません";
+
+// MARK: - App Store
+"rate_app" = "このアプリを評価";
+"share_app" = "アプリを共有";
+"feedback" = "フィードバックを送信";
+"update_available" = "アップデート利用可能";
+"update_message" = "App Storeで新しいバージョンが利用可能です";

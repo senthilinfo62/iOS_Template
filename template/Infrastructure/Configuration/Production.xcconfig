@@ -1,0 +1,29 @@
+//
+//  Production.xcconfig
+//  template
+//
+//  Configuration settings file format documentation can be found at:
+//  https://help.apple.com/xcode/#/dev745c5c974
+
+// Bundle Identifier
+PRODUCT_BUNDLE_IDENTIFIER = com.ios.template
+
+// App Name
+PRODUCT_NAME = Template
+
+// App Display Name
+INFOPLIST_KEY_CFBundleDisplayName = Template
+
+// API Base URL
+API_BASE_URL = https://api.yourapp.com
+
+// Environment
+ENVIRONMENT = production
+
+// Code Signing
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM = Y77BRW976S
+
+// Build Settings
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) PRODUCTION
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) PRODUCTION=1
