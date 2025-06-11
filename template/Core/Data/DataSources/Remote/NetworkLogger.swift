@@ -7,50 +7,52 @@
 
 import Foundation
 import Alamofire
+import os.log
 
 // MARK: - Network Logger
 final class NetworkLogger: EventMonitor {
     let queue = DispatchQueue(label: "NetworkLogger")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "NetworkLogger", category: "networking")
     
     func requestDidFinish(_ request: Request) {
         guard AppConstants.FeatureFlags.enableDebugLogging else { return }
-        
-        print("🌐 ===============================")
-        print("🌐 REQUEST FINISHED")
-        print("🌐 ===============================")
-        print("🌐 URL: \(request.request?.url?.absoluteString ?? "Unknown")")
-        print("🌐 Method: \(request.request?.httpMethod ?? "Unknown")")
-        print("🌐 Headers: \(request.request?.allHTTPHeaderFields ?? [:])")
-        
+
+        logger.info("🌐 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        logger.info("🌐 REQUEST FINISHED")
+        logger.info("🌐 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        logger.info("🌐 URL: \(request.request?.url?.absoluteString ?? "Unknown")")
+        logger.info("🌐 Method: \(request.request?.httpMethod ?? "Unknown")")
+        logger.debug("🌐 Headers: \(String(describing: request.request?.allHTTPHeaderFields ?? [:]))")
+
         if let body = request.request?.httpBody,
            let bodyString = String(data: body, encoding: .utf8) {
-            print("🌐 Body: \(bodyString)")
+            logger.debug("🌐 Body: \(bodyString)")
         }
-        
-        print("🌐 ===============================")
+
+        logger.info("🌐 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     }
     
     func request<Value>(_ request: DataRequest, didParseResponse response: DataResponse<Value, AFError>) {
         guard AppConstants.FeatureFlags.enableDebugLogging else { return }
-        
-        print("🌐 ===============================")
-        print("🌐 RESPONSE RECEIVED")
-        print("🌐 ===============================")
-        print("🌐 URL: \(request.request?.url?.absoluteString ?? "Unknown")")
-        print("🌐 Status Code: \(response.response?.statusCode ?? 0)")
-        print("🌐 Headers: \(response.response?.allHeaderFields ?? [:])")
-        
+
+        logger.info("🌐 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        logger.info("🌐 RESPONSE RECEIVED")
+        logger.info("🌐 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        logger.info("🌐 URL: \(request.request?.url?.absoluteString ?? "Unknown")")
+        logger.info("🌐 Status Code: \(response.response?.statusCode ?? 0)")
+        logger.debug("🌐 Headers: \(String(describing: response.response?.allHeaderFields ?? [:]))")
+
         if let data = response.data,
            let responseString = String(data: data, encoding: .utf8) {
-            print("🌐 Response: \(responseString)")
+            logger.debug("🌐 Response: \(responseString)")
         }
-        
+
         if let error = response.error {
-            print("🌐 Error: \(error.localizedDescription)")
+            logger.error("🌐 Error: \(error.localizedDescription)")
         }
-        
-        print("🌐 Duration: \(response.metrics?.taskInterval.duration ?? 0)s")
-        print("🌐 ===============================")
+
+        logger.info("🌐 Duration: \(response.metrics?.taskInterval.duration ?? 0)s")
+        logger.info("🌐 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     }
 }
 
@@ -92,7 +94,7 @@ struct NetworkMetrics {
     }
     
     var description: String {
-        return """
+        """
         📊 Network Metrics:
         URL: \(url)
         Method: \(method)
@@ -122,7 +124,8 @@ final class NetworkPerformanceMonitor {
             }
             
             if AppConstants.FeatureFlags.enableDebugLogging {
-                print(metrics.description)
+                Logger(subsystem: Bundle.main.bundleIdentifier ?? "NetworkPerformanceMonitor", category: "metrics")
+                    .info("\(metrics.description)")
             }
         }
     }
@@ -136,7 +139,7 @@ final class NetworkPerformanceMonitor {
     }
     
     func getMetrics() -> [NetworkMetrics] {
-        return queue.sync { metrics }
+        queue.sync { metrics }
     }
     
     func clearMetrics() {
