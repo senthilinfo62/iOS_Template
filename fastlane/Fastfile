@@ -1,0 +1,112 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    setup_circle_ci if ENV['CI']
+  end
+
+  desc "Build and upload staging build to TestFlight"
+  lane :staging do
+    # Increment build number
+    increment_build_number(
+      xcodeproj: "template.xcodeproj"
+    )
+    
+    # Build the app
+    build_app(
+      scheme: "template",
+      configuration: "Debug",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.ios.template.stg" => "match AppStore com.ios.template.stg"
+        }
+      },
+      xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg"
+    )
+    
+    # Upload to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      groups: ["QA Team", "Internal Testers"]
+    )
+    
+    # Send notification
+    slack(
+      message: "🚀 Staging build uploaded to TestFlight successfully!",
+      success: true
+    ) if ENV['SLACK_URL']
+  end
+
+  desc "Build and upload production build to TestFlight"
+  lane :production do
+    # Increment build number
+    increment_build_number(
+      xcodeproj: "template.xcodeproj"
+    )
+    
+    # Build the app
+    build_app(
+      scheme: "template",
+      configuration: "Release",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.ios.template" => "match AppStore com.ios.template"
+        }
+      },
+      xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template"
+    )
+    
+    # Upload to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      groups: ["External Testers"]
+    )
+    
+    # Send notification
+    slack(
+      message: "🎉 Production build uploaded to TestFlight successfully!",
+      success: true
+    ) if ENV['SLACK_URL']
+  end
+
+  desc "Download certificates and provisioning profiles"
+  lane :certificates do
+    match(
+      type: "appstore",
+      app_identifier: ["com.ios.template", "com.ios.template.stg"],
+      readonly: true
+    )
+  end
+
+  desc "Run tests"
+  lane :test do
+    run_tests(
+      scheme: "template",
+      devices: ["iPhone 15"]
+    )
+  end
+
+  error do |lane, exception|
+    slack(
+      message: "❌ Lane #{lane} failed with error: #{exception.message}",
+      success: false
+    ) if ENV['SLACK_URL']
+  end
+end

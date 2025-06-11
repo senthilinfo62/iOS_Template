@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		68219B6E2DF95FBE0094DF17 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 68219B6D2DF95FBE0094DF17 /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		68219ADF2DF935200094DF17 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -35,16 +39,6 @@
 			path = template;
 			sourceTree = "<group>";
 		};
-		68219AE12DF935200094DF17 /* templateTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = templateTests;
-			sourceTree = "<group>";
-		};
-		68219AEB2DF935200094DF17 /* templateUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = templateUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68219B6E2DF95FBE0094DF17 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				68219AD22DF9351D0094DF17 /* template */,
-				68219AE12DF935200094DF17 /* templateTests */,
-				68219AEB2DF935200094DF17 /* templateUITests */,
+				68219B6C2DF95FBE0094DF17 /* Frameworks */,
 				68219AD12DF9351D0094DF17 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +84,13 @@
 				68219AE82DF935200094DF17 /* templateUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		68219B6C2DF95FBE0094DF17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +113,7 @@
 			);
 			name = template;
 			packageProductDependencies = (
+				68219B6D2DF95FBE0094DF17 /* Alamofire */,
 			);
 			productName = template;
 			productReference = 68219AD02DF9351D0094DF17 /* template.app */;
@@ -129,9 +131,6 @@
 			);
 			dependencies = (
 				68219AE02DF935200094DF17 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				68219AE12DF935200094DF17 /* templateTests */,
 			);
 			name = templateTests;
 			packageProductDependencies = (
@@ -152,9 +151,6 @@
 			);
 			dependencies = (
 				68219AEA2DF935200094DF17 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				68219AEB2DF935200094DF17 /* templateUITests */,
 			);
 			name = templateUITests;
 			packageProductDependencies = (
@@ -192,9 +188,13 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 68219AC72DF9351D0094DF17;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				68219B612DF956210094DF17 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 68219AD12DF9351D0094DF17 /* Products */;
 			projectDirPath = "";
@@ -274,6 +274,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -336,6 +337,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -390,7 +392,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = template/template.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y77BRW976S;
@@ -413,6 +415,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.template;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.ios.template;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -429,7 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = template/template.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y77BRW976S;
@@ -452,6 +455,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.template;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.ios.template;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -593,6 +597,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		68219B612DF956210094DF17 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		68219B6D2DF95FBE0094DF17 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68219B612DF956210094DF17 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 68219AC82DF9351D0094DF17 /* Project object */;
 }
