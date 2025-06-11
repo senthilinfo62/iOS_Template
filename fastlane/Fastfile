@@ -28,13 +28,13 @@ platform :ios do
         xcodeproj: "template.xcodeproj"
       )
 
-      # Build the app
-      build_app(
+      # Build the app for iOS Simulator
+      xcodebuild(
         scheme: "template",
         configuration: "Debug",
-        export_method: "development",
-        skip_codesigning: true,
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg CODE_SIGNING_ALLOWED=NO"
+        destination: "platform=iOS Simulator,name=iPhone 16",
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg CODE_SIGNING_ALLOWED=NO",
+        build: true
       )
 
       UI.success("✅ Staging build completed")
@@ -54,13 +54,13 @@ platform :ios do
         xcodeproj: "template.xcodeproj"
       )
 
-      # Build the app
-      build_app(
+      # Build the app for iOS Simulator
+      xcodebuild(
         scheme: "template",
         configuration: "Release",
-        export_method: "development",
-        skip_codesigning: true,
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template CODE_SIGNING_ALLOWED=NO"
+        destination: "platform=iOS Simulator,name=iPhone 16",
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template CODE_SIGNING_ALLOWED=NO",
+        build: true
       )
 
       UI.success("✅ Production build completed")
