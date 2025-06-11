@@ -183,32 +183,32 @@ jobs:
           
           # Extract package information
           python3 << 'EOF'
-import json
-import urllib.request
-import sys
+          import json
+          import urllib.request
+          import sys
 
-try:
-    with open('template.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved', 'r') as f:
-        data = json.load(f)
-    
-    if 'pins' in data:
-        print("📦 Found dependencies:")
-        for pin in data['pins']:
-            name = pin.get('identity', 'Unknown')
-            version = pin.get('state', {}).get('version', 'Unknown')
-            location = pin.get('location', 'Unknown')
-            print(f"  - {name} v{version} ({location})")
-            
-            # Check for known vulnerable versions (basic check)
-            if 'alamofire' in name.lower() and version.startswith('4.'):
-                print(f"    ⚠️  Warning: Alamofire v4.x has known vulnerabilities, consider upgrading")
-    else:
-        print("No dependencies found")
-        
-except Exception as e:
-    print(f"Error analyzing dependencies: {e}")
-    sys.exit(1)
-EOF
+          try:
+              with open('template.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved', 'r') as f:
+                  data = json.load(f)
+
+              if 'pins' in data:
+                  print("📦 Found dependencies:")
+                  for pin in data['pins']:
+                      name = pin.get('identity', 'Unknown')
+                      version = pin.get('state', {}).get('version', 'Unknown')
+                      location = pin.get('location', 'Unknown')
+                      print(f"  - {name} v{version} ({location})")
+
+                      # Check for known vulnerable versions (basic check)
+                      if 'alamofire' in name.lower() and version.startswith('4.'):
+                          print(f"    ⚠️  Warning: Alamofire v4.x has known vulnerabilities, consider upgrading")
+              else:
+                  print("No dependencies found")
+
+          except Exception as e:
+              print(f"Error analyzing dependencies: {e}")
+              sys.exit(1)
+          EOF
         else
           echo "⚠️ No Package.resolved found"
         fi

@@ -20,8 +20,10 @@ final class MockAPIService: APIServiceProtocol {
         Post(id: 3, title: "Mock Post 3", body: "Content 3", userId: 2)
     ]
     var mockUsers: [User] = [
-        User(id: 1, name: "John Doe", username: "johndoe", email: "john@example.com", phone: "123-456-7890", website: "johndoe.com"),
-        User(id: 2, name: "Jane Smith", username: "janesmith", email: "jane@example.com", phone: "098-765-4321", website: "janesmith.com")
+        User(id: 1, name: "John Doe", username: "johndoe", email: "john@example.com",
+             phone: "123-456-7890", website: "johndoe.com"),
+        User(id: 2, name: "Jane Smith", username: "janesmith", email: "jane@example.com",
+             phone: "098-765-4321", website: "janesmith.com")
     ]
 
     // MARK: - APIServiceProtocol Implementation
@@ -61,10 +63,9 @@ final class MockAPIService: APIServiceProtocol {
             if self.shouldReturnError {
                 completion(.failure(self.errorType))
             } else {
-                var newPost = post
                 // Simulate server assigning an ID
                 let newId = (self.mockPosts.map { $0.id }.max() ?? 0) + 1
-                let createdPost = Post(id: newId, title: newPost.title, body: newPost.body, userId: newPost.userId)
+                let createdPost = Post(id: newId, title: post.title, body: post.body, userId: post.userId)
                 self.mockPosts.append(createdPost)
                 completion(.success(createdPost))
             }
@@ -84,7 +85,8 @@ final class MockAPIService: APIServiceProtocol {
         mockPost = Post(id: 1, title: title, body: body, userId: userId)
     }
 
-    func simulateError(_ shouldError: Bool = true, errorType: APIError = .networkError(NSError(domain: "MockAPIService", code: 500))) {
+    func simulateError(_ shouldError: Bool = true,
+                       errorType: APIError = .networkError(NSError(domain: "MockAPIService", code: 500))) {
         shouldReturnError = shouldError
         self.errorType = errorType
     }
@@ -110,15 +112,18 @@ final class MockAPIService: APIServiceProtocol {
         shouldReturnError = false
         delay = 0.1
         errorType = .networkError(NSError(domain: "MockAPIService", code: 500))
-        mockPost = Post(id: 1, title: "Mock Post Title", body: "Mock post content for testing purposes", userId: 1)
+        mockPost = Post(id: 1, title: "Mock Post Title",
+                        body: "Mock post content for testing purposes", userId: 1)
         mockPosts = [
             Post(id: 1, title: "Mock Post 1", body: "Content 1", userId: 1),
             Post(id: 2, title: "Mock Post 2", body: "Content 2", userId: 1),
             Post(id: 3, title: "Mock Post 3", body: "Content 3", userId: 2)
         ]
         mockUsers = [
-            User(id: 1, name: "John Doe", username: "johndoe", email: "john@example.com", phone: "123-456-7890", website: "johndoe.com"),
-            User(id: 2, name: "Jane Smith", username: "janesmith", email: "jane@example.com", phone: "098-765-4321", website: "janesmith.com")
+            User(id: 1, name: "John Doe", username: "johndoe", email: "john@example.com",
+                 phone: "123-456-7890", website: "johndoe.com"),
+            User(id: 2, name: "Jane Smith", username: "janesmith", email: "jane@example.com",
+                 phone: "098-765-4321", website: "janesmith.com")
         ]
     }
 }
