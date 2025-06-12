@@ -19,7 +19,7 @@ This guide will help you complete the TestFlight integration for your iOS templa
 ### Step 1: Go to GitHub Repository Settings
 Navigate to: `https://github.com/senthilinfo62/iOS_Template/settings/secrets/actions`
 
-### Step 2: Add These 3 Secrets
+### Step 2: Add These 4 Secrets
 
 Click **"New repository secret"** for each:
 
@@ -43,6 +43,13 @@ Name: FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD
 Value: jdrz-grke-znrx-nzmj
 ```
 *Your Apple app-specific password for TestFlight uploads*
+
+#### Secret 4: FASTLANE_PASSWORD
+```
+Name: FASTLANE_PASSWORD
+Value: [Your Apple Developer account password]
+```
+*Your Apple Developer account password for certificate generation*
 
 ## 🎯 What Happens After Adding Secrets
 
