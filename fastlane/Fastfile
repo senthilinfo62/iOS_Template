@@ -18,8 +18,19 @@ default_platform(:ios)
 platform :ios do
   before_all do
     # Auto-sync team ID from Xcode project before any lane
-    UI.message("🔄 Auto-syncing team ID from Xcode project...")
-    sh("../scripts/sync_team_id.sh")
+    begin
+      UI.message("🔄 Auto-syncing team ID from Xcode project...")
+
+      # Ensure script is executable
+      sh("chmod +x ../scripts/sync_team_id.sh") if File.exist?("../scripts/sync_team_id.sh")
+
+      # Run the sync script
+      sh("../scripts/sync_team_id.sh")
+
+    rescue => ex
+      UI.important("⚠️ Team ID sync failed: #{ex}")
+      UI.important("Continuing with existing Appfile configuration...")
+    end
 
     setup_circle_ci if ENV['CI']
   end
@@ -118,9 +129,13 @@ platform :ios do
   end
 
   error do |lane, exception|
-    slack(
-      message: "❌ Lane #{lane} failed with error: #{exception.message}",
-      success: false
-    ) if ENV['SLACK_URL']
+    if ENV['SLACK_URL'] && !ENV['SLACK_URL'].empty? && ENV['SLACK_URL'].start_with?('https://')
+      slack(
+        message: "❌ Lane #{lane} failed with error: #{exception.message}",
+        success: false
+      )
+    else
+      UI.important("⚠️ Slack notification skipped - SLACK_URL not configured or invalid")
+    end
   end
 end

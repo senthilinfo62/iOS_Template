@@ -63,7 +63,13 @@ jobs:
       run: |
         gem install bundler
         bundle install
-        
+
+    - name: Set script permissions
+      run: |
+        echo "🔧 Setting execute permissions on scripts..."
+        chmod +x scripts/*.sh
+        ls -la scripts/
+
     - name: Setup certificates
       env:
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}

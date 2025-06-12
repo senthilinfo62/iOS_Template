@@ -5,10 +5,29 @@
 
 set -e
 
-PROJECT_FILE="template.xcodeproj/project.pbxproj"
-APPFILE="fastlane/Appfile"
+# Determine project file path (handle both local and CI environments)
+if [ -f "template.xcodeproj/project.pbxproj" ]; then
+    PROJECT_FILE="template.xcodeproj/project.pbxproj"
+elif [ -f "../template.xcodeproj/project.pbxproj" ]; then
+    PROJECT_FILE="../template.xcodeproj/project.pbxproj"
+else
+    echo "❌ Could not find template.xcodeproj/project.pbxproj"
+    exit 1
+fi
+
+# Determine Appfile path (handle both local and CI environments)
+if [ -f "fastlane/Appfile" ]; then
+    APPFILE="fastlane/Appfile"
+elif [ -f "../fastlane/Appfile" ]; then
+    APPFILE="../fastlane/Appfile"
+else
+    echo "❌ Could not find fastlane/Appfile"
+    exit 1
+fi
 
 echo "🔍 Reading team ID from Xcode project..."
+echo "📁 Project file: $PROJECT_FILE"
+echo "📁 Appfile: $APPFILE"
 
 # Extract team ID from the main app target (first occurrence)
 TEAM_ID=$(grep -m 1 "DEVELOPMENT_TEAM = " "$PROJECT_FILE" | sed 's/.*DEVELOPMENT_TEAM = \(.*\);/\1/' | tr -d ' ')
