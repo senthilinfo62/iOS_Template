@@ -14,6 +14,16 @@ protocol PostRepositoryProtocol {
     func createPost(_ post: Post, completion: @escaping (Result<Post, APIError>) -> Void)
 }
 
+/**
+ * The repository for managing `Post` data.
+ *
+ * This class abstracts the data source, providing a clean API for
+ * the Domain layer to interact with. It hides the implementation
+ * details of where the data comes from (e.g., network, cache).
+ *
+ * It depends on the `APIServiceProtocol` to perform the actual
+ * data fetching.
+ */
 final class PostRepository: PostRepositoryProtocol {
     private let apiService: APIServiceProtocol
 

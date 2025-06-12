@@ -31,7 +31,7 @@ struct AppView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .environmentObject(router)
-        .preferredColorScheme(.light)
+        .preferredColorScheme(themeManager.selectedColorScheme)
         .background(Color(.systemBackground))
         .ignoresSafeArea(.all)
         .onAppear {

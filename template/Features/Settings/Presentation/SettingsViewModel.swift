@@ -12,23 +12,24 @@ final class SettingsViewModel: ObservableObject {
     @Published var availableThemes: [AppTheme] = []
 
     private let themeUseCase: ThemeUseCaseProtocol
-    private let themeManager = ThemeManager.shared
+    private let themeManager: ThemeManager
 
     var currentTheme: AppTheme {
-        return themeUseCase.getCurrentTheme()
+        return themeManager.currentTheme
     }
 
     var selectedColorScheme: ColorScheme? {
         return themeManager.selectedColorScheme
     }
 
-    init(themeUseCase: ThemeUseCaseProtocol? = nil) {
+    init(themeUseCase: ThemeUseCaseProtocol? = nil, themeManager: ThemeManager = .shared) {
         if let themeUseCase = themeUseCase {
             self.themeUseCase = themeUseCase
         } else {
             // Fallback to direct ThemeManager usage
-            self.themeUseCase = ThemeUseCase(themeService: ThemeManager.shared)
+            self.themeUseCase = ThemeUseCase(themeService: themeManager)
         }
+        self.themeManager = themeManager
         self.availableThemes = self.themeUseCase.getAvailableThemes()
         print("🎨 SettingsViewModel: Initialized with theme: \(currentTheme.rawValue)")
     }
@@ -36,6 +37,5 @@ final class SettingsViewModel: ObservableObject {
     func selectTheme(_ theme: AppTheme) {
         print("🎨 SettingsViewModel: Selecting theme: \(theme.rawValue)")
         themeUseCase.setTheme(theme)
-        themeManager.setTheme(theme) // Also update the manager for UI updates
     }
 }

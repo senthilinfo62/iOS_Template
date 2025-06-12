@@ -75,6 +75,15 @@ protocol APIServiceProtocol {
 }
 
 // MARK: - Enhanced API Service
+/**
+ * The `APIService` handles all network communication.
+ *
+ * This class is responsible for:
+ * - Making HTTP requests using Alamofire.
+ * - Handling responses and decoding them into Swift objects.
+ * - Managing network-related errors.
+ * - Implementing advanced features like request retries.
+ */
 final class APIService: APIServiceProtocol {
 
     // MARK: - Properties
