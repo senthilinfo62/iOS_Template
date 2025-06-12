@@ -20,9 +20,9 @@ This guide will walk you through setting up TestFlight uploads for your iOS app 
 - [ ] **Two-Factor Authentication** enabled on Apple ID
 
 ### Required Information
-- **Apple ID**: `senthilinfo62@gmail.com`
+- **Apple ID**: `senthilkumar.m@nexware-global.com`
 - **Team ID**: `FC25M3HCWJ`
-- **Bundle IDs**: 
+- **Bundle IDs**:
   - Production: `com.ios.template`
   - Staging: `com.ios.template.stg`
 
@@ -40,7 +40,7 @@ This guide will walk you through setting up TestFlight uploads for your iOS app 
 
 1. **Go to App Store Connect:**
    - Visit [appstoreconnect.apple.com](https://appstoreconnect.apple.com)
-   - Sign in with `senthilinfo62@gmail.com`
+   - Sign in with `senthilkumar.m@nexware-global.com`
 
 2. **Create New App:**
    - Click "My Apps" → "+" → "New App"
@@ -56,7 +56,7 @@ This guide will walk you through setting up TestFlight uploads for your iOS app 
 
 1. **Go to Apple ID Account:**
    - Visit [appleid.apple.com](https://appleid.apple.com)
-   - Sign in with `senthilinfo62@gmail.com`
+   - Sign in with `senthilkumar.m@nexware-global.com`
 
 2. **Generate Password:**
    - Security → App-Specific Passwords
