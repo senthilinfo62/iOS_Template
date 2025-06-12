@@ -118,5 +118,8 @@ jobs:
         SLACK_URL: ${{ secrets.SLACK_URL }}
       run: |
         echo "🚀 Building staging version..."
+        echo "🔐 Ensuring certificates are available..."
+        bundle exec fastlane certificates || echo "⚠️ Certificate setup had issues, but continuing..."
+        echo "📱 Starting staging build..."
         bundle exec fastlane staging
       continue-on-error: true

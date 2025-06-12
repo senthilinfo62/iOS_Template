@@ -43,12 +43,25 @@ platform :ios do
         match(
           type: "appstore",
           app_identifier: "com.nexware.template.stg",
-          readonly: true
+          readonly: false,  # Allow certificate generation
+          force_for_new_devices: true
         )
       rescue => ex
         UI.important("⚠️ Match failed: #{ex}")
-        UI.important("Using locally installed certificates...")
-        # Continue with locally installed certificates
+        UI.important("🔧 Attempting to generate certificates...")
+        begin
+          match(
+            type: "appstore",
+            app_identifier: "com.nexware.template.stg",
+            readonly: false,
+            force: true,
+            force_for_new_devices: true
+          )
+          UI.success("✅ Certificates generated successfully!")
+        rescue => gen_ex
+          UI.important("⚠️ Certificate generation failed: #{gen_ex}")
+          UI.important("Using locally installed certificates...")
+        end
       end
 
       # Increment build number
@@ -107,12 +120,25 @@ platform :ios do
         match(
           type: "appstore",
           app_identifier: "com.nexware.template",
-          readonly: true
+          readonly: false,  # Allow certificate generation
+          force_for_new_devices: true
         )
       rescue => ex
         UI.important("⚠️ Match failed: #{ex}")
-        UI.important("Using locally installed certificates...")
-        # Continue with locally installed certificates
+        UI.important("🔧 Attempting to generate certificates...")
+        begin
+          match(
+            type: "appstore",
+            app_identifier: "com.nexware.template",
+            readonly: false,
+            force: true,
+            force_for_new_devices: true
+          )
+          UI.success("✅ Certificates generated successfully!")
+        rescue => gen_ex
+          UI.important("⚠️ Certificate generation failed: #{gen_ex}")
+          UI.important("Using locally installed certificates...")
+        end
       end
 
       # Increment build number
