@@ -2,7 +2,7 @@
 
 A **production-ready iOS application template** built with **SwiftUI**, featuring **Clean Architecture**, **Dependency Injection**, **Swift Package Manager**, and comprehensive enterprise features.
 
-> **✅ CI/CD Status**: Personal Access Token configured - Certificate repository access enabled
+> **✅ CI/CD Status**: Certificate generation enabled - TestFlight automation ready
 
 [![iOS](https://img.shields.io/badge/iOS-18.5+-blue.svg)](https://developer.apple.com/ios/)
 [![Swift](https://img.shields.io/badge/Swift-5.0+-orange.svg)](https://swift.org/)
