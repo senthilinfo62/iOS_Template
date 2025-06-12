@@ -89,6 +89,8 @@ jobs:
         MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
         FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
         FASTLANE_USER: senthilkumar.m@nexware-global.com
+        FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
+        SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: ${{ secrets.SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER }}
       run: |
         echo "🔐 Setting up certificates for production..."
         echo "🔧 First trying to sync existing certificates..."
@@ -105,5 +107,6 @@ jobs:
         FASTLANE_USER: senthilkumar.m@nexware-global.com
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: ${{ secrets.SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER }}
         SLACK_URL: ${{ secrets.SLACK_URL }}
       run: bundle exec fastlane production

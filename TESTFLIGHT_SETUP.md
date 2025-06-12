@@ -19,7 +19,7 @@ This guide will help you complete the TestFlight integration for your iOS templa
 ### Step 1: Go to GitHub Repository Settings
 Navigate to: `https://github.com/senthilinfo62/iOS_Template/settings/secrets/actions`
 
-### Step 2: Add These 4 Secrets
+### Step 2: Add These 6 Secrets
 
 Click **"New repository secret"** for each:
 
@@ -50,6 +50,51 @@ Name: FASTLANE_PASSWORD
 Value: [Your Apple Developer account password]
 ```
 *Your Apple Developer account password for certificate generation*
+
+#### Secret 5: FASTLANE_SESSION (For 2FA)
+```
+Name: FASTLANE_SESSION
+Value: [Generated session token - see instructions below]
+```
+*Session token to bypass 2FA in CI/CD - expires periodically*
+
+#### Secret 6: SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER (Optional)
+```
+Name: SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER
+Value: +1234567890
+```
+*Your phone number for 2FA SMS (format: +countrycode+number)*
+
+## 🔐 How to Generate FASTLANE_SESSION (2FA Bypass)
+
+Since your Apple Developer account has 2-Factor Authentication enabled, you need to generate a session token:
+
+### Method 1: Using Our Script (Recommended)
+```bash
+# Run the session generator script
+cd /Users/senthilkumarmaruthasalam/Documents/template
+ruby scripts/generate_fastlane_session.rb
+```
+
+### Method 2: Manual Generation
+```bash
+# Install spaceship gem if needed
+gem install spaceship
+
+# Generate session interactively
+fastlane spaceauth -u senthilkumar.m@nexware-global.com
+```
+
+### Method 3: Using Fastlane Command
+```bash
+# Generate session with fastlane
+bundle exec fastlane run spaceship_login username:senthilkumar.m@nexware-global.com
+```
+
+**Important Notes:**
+- The session token will expire after some time (usually 30 days)
+- You'll need to regenerate it when it expires
+- Keep the token secure - it provides access to your Apple Developer account
 
 ## 🎯 What Happens After Adding Secrets
 
