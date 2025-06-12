@@ -66,8 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation and guides
 
 ### Bundle Identifiers
-- Production: `com.ios.template`
-- Staging: `com.ios.template.stg`
+- Production: `com.nexware.template`
+- Staging: `com.nexware.template.stg`
 
 ### Supported Platforms
 - iOS 18.5+

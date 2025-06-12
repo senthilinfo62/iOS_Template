@@ -75,7 +75,7 @@ protocol AnalyticsServiceProtocol {
 final class AnalyticsManager: AnalyticsServiceProtocol {
     static let shared = AnalyticsManager()
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "Analytics")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "Analytics")
     private let isEnabled: Bool
 
     private init() {

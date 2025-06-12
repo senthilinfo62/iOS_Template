@@ -144,7 +144,7 @@
     <array>
         <dict>
             <key>CFBundleURLName</key>
-            <string>com.ios.template.url</string>
+            <string>com.nexware.template.url</string>
             <key>CFBundleURLSchemes</key>
             <array>
                 <string>iostemplate</string>
@@ -172,7 +172,7 @@
     <array>
         <dict>
             <key>UTTypeIdentifier</key>
-            <string>com.ios.template.document</string>
+            <string>com.nexware.template.document</string>
             <key>UTTypeDescription</key>
             <string>iOS Template Document</string>
             <key>UTTypeConformsTo</key>

@@ -12,7 +12,7 @@ import os.log
 final class PerformanceMonitor {
     static let shared = PerformanceMonitor()
     
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "Performance")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "Performance")
     private var startTimes: [String: CFAbsoluteTime] = [:]
     
     private init() {}

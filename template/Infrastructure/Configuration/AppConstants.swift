@@ -38,7 +38,7 @@ struct AppConstants {
         static let name = "iOS Template"
         static let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
         static let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-        static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "com.ios.template"
+        static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "com.nexware.template"
         static let displayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? "Template"
     }
     
@@ -228,6 +228,6 @@ struct AppConstants {
     
     // MARK: - Bundle Identifier Helper
     private static var bundleIdentifier: String {
-        return Bundle.main.bundleIdentifier ?? "com.ios.template"
+        return Bundle.main.bundleIdentifier ?? "com.nexware.template"
     }
 }

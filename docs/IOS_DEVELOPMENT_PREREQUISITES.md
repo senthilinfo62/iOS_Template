@@ -163,7 +163,7 @@ Add entitlements file if needed:
 <dict>
     <key>keychain-access-groups</key>
     <array>
-        <string>$(AppIdentifierPrefix)com.ios.template</string>
+        <string>$(AppIdentifierPrefix)com.nexware.template</string>
     </array>
 </dict>
 </plist>

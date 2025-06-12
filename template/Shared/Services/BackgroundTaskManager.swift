@@ -13,11 +13,11 @@ import os.log
 final class BackgroundTaskManager {
     static let shared = BackgroundTaskManager()
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "BackgroundTasks")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "BackgroundTasks")
 
     // Task identifiers (must match Info.plist)
-    private let backgroundRefreshTaskID = "com.ios.template.background-refresh"
-    private let backgroundProcessingTaskID = "com.ios.template.background-processing"
+    private let backgroundRefreshTaskID = "com.nexware.template.background-refresh"
+    private let backgroundProcessingTaskID = "com.nexware.template.background-processing"
 
     private init() {}
 

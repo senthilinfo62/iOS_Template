@@ -23,8 +23,8 @@ This guide will walk you through setting up TestFlight uploads for your iOS app 
 - **Apple ID**: `senthilkumar.m@nexware-global.com`
 - **Team ID**: `FC25M3HCWJ`
 - **Bundle IDs**:
-  - Production: `com.ios.template`
-  - Staging: `com.ios.template.stg`
+  - Production: `com.nexware.template`
+  - Staging: `com.nexware.template.stg`
 
 ## 🚀 Step-by-Step Setup
 
@@ -46,11 +46,11 @@ This guide will walk you through setting up TestFlight uploads for your iOS app 
    - Click "My Apps" → "+" → "New App"
    - **Platform**: iOS
    - **Name**: Your app name
-   - **Bundle ID**: `com.ios.template`
+   - **Bundle ID**: `com.nexware.template`
    - **SKU**: Unique identifier
 
 3. **Create Staging App (Optional):**
-   - Repeat for staging with Bundle ID: `com.ios.template.stg`
+   - Repeat for staging with Bundle ID: `com.nexware.template.stg`
 
 ### Step 3: Generate App-Specific Password
 

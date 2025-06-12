@@ -6,16 +6,16 @@ This document explains how to set up and use the CI/CD pipeline for automatic bu
 
 The CI/CD pipeline automatically builds and deploys your iOS app to TestFlight with different configurations:
 
-- **Staging**: `com.ios.template.stg` - For QA testing
-- **Production**: `com.ios.template` - For production releases
+- **Staging**: `com.nexware.template.stg` - For QA testing
+- **Production**: `com.nexware.template` - For production releases
 
 ## Prerequisites
 
 ### 1. Apple Developer Account Setup
 - Ensure you have an active Apple Developer account
 - Create App Store Connect apps for both bundle identifiers:
-  - `com.ios.template.stg` (Staging)
-  - `com.ios.template` (Production)
+  - `com.nexware.template.stg` (Staging)
+  - `com.nexware.template` (Production)
 
 ### 2. Certificate Management
 Create a separate repository for storing certificates and provisioning profiles:
@@ -101,14 +101,14 @@ bundle exec fastlane certificates
 The app uses different configurations based on the build:
 
 ### Staging Environment:
-- Bundle ID: `com.ios.template.stg`
+- Bundle ID: `com.nexware.template.stg`
 - App Name: "Template STG"
 - API Base URL: `https://staging-api.yourapp.com`
 - Analytics: Disabled
 - Logging: Verbose
 
 ### Production Environment:
-- Bundle ID: `com.ios.template`
+- Bundle ID: `com.nexware.template`
 - App Name: "Template"
 - API Base URL: `https://api.yourapp.com`
 - Analytics: Enabled

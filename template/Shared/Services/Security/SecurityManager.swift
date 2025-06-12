@@ -23,7 +23,7 @@ protocol SecurityServiceProtocol {
 final class SecurityManager: @unchecked Sendable, SecurityServiceProtocol {
     static let shared = SecurityManager()
     
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "Security")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "Security")
     private let context = LAContext()
     
     private init() {}

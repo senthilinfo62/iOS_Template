@@ -40,9 +40,9 @@ enum Environment {
     var bundleIdentifier: String {
         switch self {
         case .staging:
-            return "com.ios.template.stg"
+            return "com.nexware.template.stg"
         case .production:
-            return "com.ios.template"
+            return "com.nexware.template"
         }
     }
     

@@ -12,14 +12,14 @@ This repository includes a complete CI/CD pipeline that automatically builds and
 2. **Configure GitHub Secrets** (see [Configuration](#configuration) below)
 
 3. **Push to trigger builds:**
-   - Push to `develop` → Staging build (`com.ios.template.stg`)
-   - Push to `main` → Production build (`com.ios.template`)
+   - Push to `develop` → Staging build (`com.nexware.template.stg`)
+   - Push to `main` → Production build (`com.nexware.template`)
 
 ## 🏗️ Architecture
 
 ### Build Configurations
-- **Staging**: `com.ios.template.stg` - QA testing environment
-- **Production**: `com.ios.template` - Production release environment
+- **Staging**: `com.nexware.template.stg` - QA testing environment
+- **Production**: `com.nexware.template` - Production release environment
 
 ### Workflow Triggers
 - **Staging**: `develop`, `staging` branches
@@ -47,11 +47,11 @@ This repository includes a complete CI/CD pipeline that automatically builds and
 Create two apps in App Store Connect:
 
 1. **Production App**
-   - Bundle ID: `com.ios.template`
+   - Bundle ID: `com.nexware.template`
    - Name: "Template"
 
 2. **Staging App**
-   - Bundle ID: `com.ios.template.stg`
+   - Bundle ID: `com.nexware.template.stg`
    - Name: "Template STG"
 
 ## 🔐 Certificate Management

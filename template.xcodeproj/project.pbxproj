@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		68219B6E2DF95FBE0094DF17 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 68219B6D2DF95FBE0094DF17 /* Alamofire */; };
+		688F4C162DFABC3000787915 /* File.txt in Resources */ = {isa = PBXBuildFile; fileRef = 688F4C152DFABC3000787915 /* File.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		68219AD02DF9351D0094DF17 /* template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = template.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68219ADE2DF935200094DF17 /* templateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = templateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		68219AE82DF935200094DF17 /* templateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = templateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		688F4C152DFABC3000787915 /* File.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = File.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -83,6 +85,7 @@
 		68219AC72DF9351D0094DF17 = {
 			isa = PBXGroup;
 			children = (
+				688F4C152DFABC3000787915 /* File.txt */,
 				68219AD22DF9351D0094DF17 /* template */,
 				68219B6C2DF95FBE0094DF17 /* Frameworks */,
 				68219AD12DF9351D0094DF17 /* Products */,
@@ -225,6 +228,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				688F4C162DFABC3000787915 /* File.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,8 +432,8 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.template;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.ios.template;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexware.template.template;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.nexware.template;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -469,8 +473,8 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.template;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.ios.template;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexware.template.template;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.nexware.template;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -493,7 +497,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.templateTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexware.template.templateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -516,7 +520,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.templateTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexware.template.templateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -538,7 +542,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.templateUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexware.template.templateUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -560,7 +564,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.templateUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexware.template.templateUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";

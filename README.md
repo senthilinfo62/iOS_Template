@@ -325,8 +325,8 @@ let currentTheme = ThemeManager.shared.currentTheme
 ### **Environment Configuration**
 The app supports multiple environments:
 
-- **Staging**: `com.ios.template.stg` - For QA testing
-- **Production**: `com.ios.template` - For production releases
+- **Staging**: `com.nexware.template.stg` - For QA testing
+- **Production**: `com.nexware.template` - For production releases
 
 Environment-specific settings are managed in:
 - `template/Configuration/Staging.xcconfig`
@@ -478,8 +478,8 @@ gem 'cocoapods'         # Not used (SPM-only project)
 ## 📱 App Store
 
 ### Bundle Identifiers
-- **Production**: `com.ios.template`
-- **Staging**: `com.ios.template.stg`
+- **Production**: `com.nexware.template`
+- **Staging**: `com.nexware.template.stg`
 
 ### TestFlight Distribution
 - **Staging**: QA Team, Internal Testers

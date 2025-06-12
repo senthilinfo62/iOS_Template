@@ -15,7 +15,7 @@ import os.log
 final class DebugTools {
     static let shared = DebugTools()
     
-    let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "Debug")
+    let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "Debug")
     
     private init() {}
     

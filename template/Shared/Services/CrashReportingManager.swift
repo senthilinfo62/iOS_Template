@@ -12,7 +12,7 @@ import os.log
 final class CrashReportingManager {
     static let shared = CrashReportingManager()
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "CrashReporting")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "CrashReporting")
     private let isEnabled: Bool
 
     private init() {

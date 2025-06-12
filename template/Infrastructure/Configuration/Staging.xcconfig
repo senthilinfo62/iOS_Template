@@ -6,7 +6,7 @@
 //  https://help.apple.com/xcode/#/dev745c5c974
 
 // Bundle Identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.ios.template.stg
+PRODUCT_BUNDLE_IDENTIFIER = com.nexware.template.stg
 
 // App Name
 PRODUCT_NAME = Template Staging

@@ -13,7 +13,7 @@ import os.log
 final class AppStoreOptimization {
     static let shared = AppStoreOptimization()
     
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "AppStore")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "AppStore")
     private let userDefaults = UserDefaults.standard
     
     // Keys for UserDefaults

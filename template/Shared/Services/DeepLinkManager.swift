@@ -54,7 +54,7 @@ final class DeepLinkManager: ObservableObject {
 
     @Published var pendingDeepLink: DeepLinkDestination?
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "DeepLink")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "DeepLink")
 
     private init() {}
 

@@ -22,7 +22,7 @@ Add these keys in Build Settings (search for each key name):
 
 #### App Information
 - `PRODUCT_NAME` = `$(TARGET_NAME)`
-- `PRODUCT_BUNDLE_IDENTIFIER` = `com.ios.template`
+- `PRODUCT_BUNDLE_IDENTIFIER` = `com.nexware.template`
 - `MARKETING_VERSION` = `1.0`
 - `CURRENT_PROJECT_VERSION` = `1`
 
@@ -41,7 +41,7 @@ Add these as custom build settings (Build Settings → + → Add User-Defined Se
 - `INFOPLIST_KEY_UIBackgroundModes` = `background-fetch background-processing remote-notification`
 
 #### URL Schemes
-- `INFOPLIST_KEY_CFBundleURLTypes` = `[{"CFBundleURLName": "com.ios.template.url", "CFBundleURLSchemes": ["iostemplate"]}]`
+- `INFOPLIST_KEY_CFBundleURLTypes` = `[{"CFBundleURLName": "com.nexware.template.url", "CFBundleURLSchemes": ["iostemplate"]}]`
 
 #### App Transport Security
 Add as custom build setting:

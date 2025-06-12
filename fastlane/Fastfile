@@ -57,7 +57,7 @@ platform :ios do
         export_method: "app-store",
         export_options: {
           provisioningProfiles: {
-            "com.ios.template.stg" => "match AppStore com.ios.template.stg"
+            "com.nexware.template.stg" => "match AppStore com.nexware.template.stg"
           }
         },
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template.stg"
@@ -115,7 +115,7 @@ platform :ios do
         export_method: "app-store",
         export_options: {
           provisioningProfiles: {
-            "com.ios.template" => "match AppStore com.ios.template"
+            "com.nexware.template" => "match AppStore com.nexware.template"
           }
         },
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template"

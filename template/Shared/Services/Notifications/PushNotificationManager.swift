@@ -21,7 +21,7 @@ protocol PushNotificationServiceProtocol {
 final class PushNotificationManager: NSObject, PushNotificationServiceProtocol {
     static let shared = PushNotificationManager()
 
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.ios.template", category: "PushNotifications")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.nexware.template", category: "PushNotifications")
     private let userDefaults = UserDefaults.standard
 
     private override init() {
