@@ -67,10 +67,13 @@ jobs:
       with:
         ruby-version: '3.3'
         bundler: '2.6.9'
-        bundler-cache: true
+        bundler-cache: false
 
     - name: Install dependencies
       run: |
+        echo "🔧 Ensuring bundler 2.6.9 is active..."
+        gem install bundler -v '2.6.9' --force
+        gem uninstall bundler -v '1.17.2' --force || echo "Bundler 1.17.2 not found"
         echo "📋 Bundle version info:"
         bundle --version
         echo "🚀 Installing gems..."
