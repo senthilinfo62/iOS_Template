@@ -170,27 +170,76 @@ platform :ios do
       match(
         type: "appstore",
         app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
-        readonly: true
+        readonly: false,  # Allow certificate generation
+        force_for_new_devices: true
       )
       UI.success("✅ Certificates synced successfully!")
     rescue => ex
       UI.important("⚠️ Certificate sync failed: #{ex}")
-      UI.important("🔍 Checking for locally installed certificates...")
+      UI.important("🔧 Attempting to generate new certificates...")
 
-      # Check if we have valid certificates locally
       begin
-        result = sh("security find-identity -v -p codesigning | grep 'Apple Distribution' || echo 'No distribution certificates found'", log: false)
-        if result.include?("Apple Distribution")
-          UI.success("✅ Found locally installed distribution certificates!")
-          UI.important("📱 Continuing with local certificates for build...")
-        else
-          UI.error("❌ No valid distribution certificates found locally")
-          UI.important("📋 Please run 'fastlane match appstore' locally to setup certificates")
+        # Try to generate certificates if sync fails
+        match(
+          type: "appstore",
+          app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
+          readonly: false,
+          force: true,  # Force regeneration
+          force_for_new_devices: true
+        )
+        UI.success("✅ New certificates generated successfully!")
+      rescue => gen_ex
+        UI.important("⚠️ Certificate generation failed: #{gen_ex}")
+        UI.important("🔍 Checking for locally installed certificates...")
+
+        # Check if we have valid certificates locally
+        begin
+          result = sh("security find-identity -v -p codesigning | grep 'Apple Distribution' || echo 'No distribution certificates found'", log: false)
+          if result.include?("Apple Distribution")
+            UI.success("✅ Found locally installed distribution certificates!")
+            UI.important("📱 Continuing with local certificates for build...")
+          else
+            UI.error("❌ No valid distribution certificates found locally")
+            UI.important("📋 Please run 'fastlane match appstore --force' locally to setup certificates")
+          end
+        rescue => cert_ex
+          UI.important("⚠️ Could not check local certificates: #{cert_ex}")
+          UI.important("📋 Please ensure certificates are properly installed")
         end
-      rescue => cert_ex
-        UI.important("⚠️ Could not check local certificates: #{cert_ex}")
-        UI.important("📋 Please ensure certificates are properly installed")
       end
+    end
+  end
+
+  desc "Generate new certificates and provisioning profiles"
+  lane :generate_certificates do
+    UI.message("🔧 Generating new certificates and provisioning profiles...")
+
+    begin
+      # Generate App Store certificates
+      match(
+        type: "appstore",
+        app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
+        readonly: false,
+        force: true,  # Force regeneration
+        force_for_new_devices: true
+      )
+      UI.success("✅ App Store certificates generated successfully!")
+
+      # Also generate development certificates for local testing
+      match(
+        type: "development",
+        app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
+        readonly: false,
+        force: true,
+        force_for_new_devices: true
+      )
+      UI.success("✅ Development certificates generated successfully!")
+
+    rescue => ex
+      UI.error("❌ Certificate generation failed: #{ex}")
+      UI.important("📋 Please check your Apple Developer account permissions")
+      UI.important("📋 Ensure you have admin access to the team")
+      raise ex
     end
   end
 
