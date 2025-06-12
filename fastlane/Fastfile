@@ -41,7 +41,7 @@ platform :ios do
       # Sync certificates and provisioning profiles
       match(
         type: "appstore",
-        app_identifier: "com.ios.template.stg",
+        app_identifier: "com.nexware.template.stg",
         readonly: true
       )
 
@@ -60,12 +60,12 @@ platform :ios do
             "com.ios.template.stg" => "match AppStore com.ios.template.stg"
           }
         },
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg"
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template.stg"
       )
 
       # Upload to TestFlight
       upload_to_testflight(
-        app_identifier: "com.ios.template.stg",
+        app_identifier: "com.nexware.template.stg",
         skip_waiting_for_build_processing: true,
         skip_submission: true,
         distribute_external: false,
@@ -86,7 +86,7 @@ platform :ios do
         scheme: "template",
         configuration: "Debug",
         destination: "generic/platform=iOS Simulator",
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg CODE_SIGNING_ALLOWED=NO",
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template.stg CODE_SIGNING_ALLOWED=NO",
         build: true
       )
       UI.success("✅ Simulator build completed")
@@ -99,7 +99,7 @@ platform :ios do
       # Sync certificates and provisioning profiles
       match(
         type: "appstore",
-        app_identifier: "com.ios.template",
+        app_identifier: "com.nexware.template",
         readonly: true
       )
 
@@ -118,12 +118,12 @@ platform :ios do
             "com.ios.template" => "match AppStore com.ios.template"
           }
         },
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template"
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template"
       )
 
       # Upload to TestFlight
       upload_to_testflight(
-        app_identifier: "com.ios.template",
+        app_identifier: "com.nexware.template",
         skip_waiting_for_build_processing: true,
         skip_submission: true,
         distribute_external: false,
@@ -144,7 +144,7 @@ platform :ios do
         scheme: "template",
         configuration: "Release",
         destination: "generic/platform=iOS Simulator",
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template CODE_SIGNING_ALLOWED=NO",
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template CODE_SIGNING_ALLOWED=NO",
         build: true
       )
       UI.success("✅ Simulator build completed")
@@ -156,7 +156,7 @@ platform :ios do
     begin
       match(
         type: "appstore",
-        app_identifier: ["com.ios.template", "com.ios.template.stg"],
+        app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
         readonly: true
       )
     rescue => ex

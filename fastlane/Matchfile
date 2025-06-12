@@ -4,7 +4,7 @@ storage_mode("git")
 
 type("appstore") # The default type, can be: appstore, adhoc, development, enterprise
 
-app_identifier(["com.ios.template", "com.ios.template.stg"])
+app_identifier(["com.nexware.template", "com.nexware.template.stg"])
 username("senthilkumar.m@nexware-global.com") # Your Apple Developer Portal username
 
 # For all available options run `fastlane match --help`

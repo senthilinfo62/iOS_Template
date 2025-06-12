@@ -1,4 +1,4 @@
-app_identifier("com.ios.template") # The bundle identifier of your app
+app_identifier("com.nexware.template") # The bundle identifier of your app
 apple_id("senthilkumar.m@nexware-global.com") # Your Apple email address
 
 itc_team_id("FC25M3HCWJ") # App Store Connect Team ID
