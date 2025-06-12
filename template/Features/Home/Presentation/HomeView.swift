@@ -6,6 +6,17 @@
 //
 import SwiftUI
 
+/**
+ * The main view of the application.
+ *
+ * This view is responsible for:
+ * - Displaying the UI to the user.
+ * - Delegating user actions to the `HomeViewModel`.
+ * - Using the `Router` to navigate to other views.
+ *
+ * It receives its dependencies (`HomeViewModel`, `Router`) via
+ * dependency injection and the environment.
+ */
 struct HomeView: View {
     @EnvironmentObject private var router: Router
     @StateObject private var viewModel: HomeViewModel

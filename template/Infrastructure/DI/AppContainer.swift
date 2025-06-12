@@ -17,6 +17,17 @@ protocol DIContainer {
 }
 
 // MARK: - App Container Implementation
+/**
+ * The central dependency injection container for the application.
+ *
+ * This class is responsible for:
+ * - Registering all services, repositories, and use cases.
+ * - Resolving dependencies and injecting them where needed.
+ * - Providing factory methods for creating ViewModels.
+ *
+ * It follows the Singleton pattern to ensure a single instance
+ * is used throughout the app.
+ */
 final class AppContainer: DIContainer, ObservableObject {
     static let shared = AppContainer()
 

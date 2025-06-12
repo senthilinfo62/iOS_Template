@@ -6,6 +6,16 @@
 //
 import Foundation
 
+/**
+ * The ViewModel for the `HomeView`.
+ *
+ * This class is responsible for:
+ * - Managing the state of the `HomeView`.
+ * - Executing the `FetchPostUseCase` to load data.
+ * - Handling the results and updating its `@Published` properties.
+ *
+ * The `HomeView` observes these properties and updates the UI accordingly.
+ */
 final class HomeViewModel: ObservableObject {
     @Published var postTitle: String = "Welcome to iOS Template!"
     @Published var isLoading: Bool = false
