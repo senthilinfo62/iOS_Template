@@ -265,7 +265,7 @@ final class SecurityManager: @unchecked Sendable, SecurityServiceProtocol {
 
     func validateCertificate(_ certificate: Data) -> Bool {
         // Basic certificate validation
-        return certificate.count > 0
+        return !certificate.isEmpty
     }
 
     // MARK: - Security Checks

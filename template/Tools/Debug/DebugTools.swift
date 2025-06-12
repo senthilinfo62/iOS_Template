@@ -171,14 +171,14 @@ struct DebugOverlay: View {
         // Update memory usage periodically
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             var memoryInfo = mach_task_basic_info()
-            var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
+            var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
             
             let kerr: kern_return_t = withUnsafeMutablePointer(to: &memoryInfo) {
                 $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
                     task_info(mach_task_self_,
-                             task_flavor_t(MACH_TASK_BASIC_INFO),
-                             $0,
-                             &count)
+                              task_flavor_t(MACH_TASK_BASIC_INFO),
+                              $0,
+                              &count)
                 }
             }
             

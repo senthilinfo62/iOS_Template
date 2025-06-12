@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import Network
+import os.log
 
 // MARK: - Data Models
 struct Post: Codable {
@@ -82,6 +83,7 @@ final class APIService: APIServiceProtocol {
     private let networkMonitor = NWPathMonitor()
     private let monitorQueue = DispatchQueue(label: "NetworkMonitor")
     private var isConnected = true
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "APIService", category: "networking")
 
     // MARK: - Initialization
     init(baseURL: String = AppConstants.API.baseURL) {
@@ -101,7 +103,7 @@ final class APIService: APIServiceProtocol {
         startNetworkMonitoring()
 
         if AppConstants.FeatureFlags.enableDebugLogging {
-            print("🌐 APIService initialized with baseURL: \(baseURL)")
+            logger.info("🌐 APIService initialized with baseURL: \(baseURL)")
         }
     }
 
@@ -114,7 +116,7 @@ final class APIService: APIServiceProtocol {
         networkMonitor.pathUpdateHandler = { [weak self] path in
             self?.isConnected = path.status == .satisfied
             if AppConstants.FeatureFlags.enableDebugLogging {
-                print("🌐 Network status: \(path.status == .satisfied ? "Connected" : "Disconnected")")
+                self?.logger.info("🌐 Network status: \(path.status == .satisfied ? "Connected" : "Disconnected")")
             }
         }
         networkMonitor.start(queue: monitorQueue)
@@ -130,7 +132,7 @@ final class APIService: APIServiceProtocol {
         let endpoint = "\(baseURL)\(AppConstants.API.Endpoints.posts)/\(id)"
 
         if AppConstants.FeatureFlags.enableDebugLogging {
-            print("🌐 Fetching post from: \(endpoint)")
+            logger.info("🌐 Fetching post from: \(endpoint)")
         }
 
         session.request(endpoint, headers: defaultHeaders())
@@ -149,7 +151,7 @@ final class APIService: APIServiceProtocol {
         let endpoint = "\(baseURL)\(AppConstants.API.Endpoints.posts)"
 
         if AppConstants.FeatureFlags.enableDebugLogging {
-            print("🌐 Fetching posts from: \(endpoint)")
+            logger.info("🌐 Fetching posts from: \(endpoint)")
         }
 
         session.request(endpoint, headers: defaultHeaders())
@@ -168,7 +170,7 @@ final class APIService: APIServiceProtocol {
         let endpoint = "\(baseURL)\(AppConstants.API.Endpoints.users)"
 
         if AppConstants.FeatureFlags.enableDebugLogging {
-            print("🌐 Fetching users from: \(endpoint)")
+            logger.info("🌐 Fetching users from: \(endpoint)")
         }
 
         session.request(endpoint, headers: defaultHeaders())
@@ -187,7 +189,7 @@ final class APIService: APIServiceProtocol {
         let endpoint = "\(baseURL)\(AppConstants.API.Endpoints.posts)"
 
         if AppConstants.FeatureFlags.enableDebugLogging {
-            print("🌐 Creating post at: \(endpoint)")
+            logger.info("🌐 Creating post at: \(endpoint)")
         }
 
         session.request(endpoint,
@@ -229,9 +231,9 @@ final class APIService: APIServiceProtocol {
 
     private func handleResponse<T: Decodable>(_ response: DataResponse<T, AFError>, completion: @escaping (Result<T, APIError>) -> Void) {
         if AppConstants.FeatureFlags.enableDebugLogging {
-            print("🌐 Response status: \(response.response?.statusCode ?? 0)")
+            logger.info("🌐 Response status: \(response.response?.statusCode ?? 0)")
             if let data = response.data, let string = String(data: data, encoding: .utf8) {
-                print("🌐 Response data: \(string)")
+                logger.debug("🌐 Response data: \(string)")
             }
         }
 
@@ -243,7 +245,7 @@ final class APIService: APIServiceProtocol {
             let apiError = mapAlamofireError(error, statusCode: response.response?.statusCode)
 
             if AppConstants.FeatureFlags.enableDebugLogging {
-                print("🌐 API Error: \(apiError.localizedDescription)")
+                logger.error("🌐 API Error: \(apiError.localizedDescription)")
             }
 
             completion(.failure(apiError))
@@ -314,7 +316,8 @@ final class APIInterceptor: RequestInterceptor {
                     switch urlError.code {
                     case .timedOut, .networkConnectionLost, .cannotConnectToHost:
                         if AppConstants.FeatureFlags.enableDebugLogging {
-                            print("🌐 Retrying request (attempt \(request.retryCount + 1)/\(retryCount))")
+                            Logger(subsystem: Bundle.main.bundleIdentifier ?? "APIService", category: "retry")
+                                .info("🌐 Retrying request (attempt \(request.retryCount + 1)/\(retryCount))")
                         }
                         completion(.retryWithDelay(retryDelay))
                         return

@@ -49,9 +49,12 @@ final class AppContainer: DIContainer, ObservableObject {
 
         // Create new instance using factory
         if let factory = factories[key] {
-            let instance = factory() as! T
-            services[key] = instance
-            return instance
+            let instance = factory()
+            guard let typedInstance = instance as? T else {
+                fatalError("Dependency \(type) factory returned wrong type")
+            }
+            services[key] = typedInstance
+            return typedInstance
         }
 
         fatalError("Dependency \(type) not registered")
@@ -67,9 +70,12 @@ final class AppContainer: DIContainer, ObservableObject {
 
         // Create new instance using factory
         if let factory = factories[key] {
-            let instance = factory() as! T
-            services[key] = instance
-            return instance
+            let instance = factory()
+            guard let typedInstance = instance as? T else {
+                return nil
+            }
+            services[key] = typedInstance
+            return typedInstance
         }
 
         return nil

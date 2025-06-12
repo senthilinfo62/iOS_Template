@@ -160,7 +160,9 @@ final class PushNotificationManager: NSObject, PushNotificationServiceProtocol {
 extension PushNotificationManager: UNUserNotificationCenterDelegate {
 
     /// Handle notification when app is in foreground
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 
         logger.info("📱 Notification received in foreground")
         handleReceivedNotification(notification.request.content.userInfo)
@@ -170,7 +172,9 @@ extension PushNotificationManager: UNUserNotificationCenterDelegate {
     }
 
     /// Handle notification tap
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
 
         logger.info("📱 Notification tapped")
         handleReceivedNotification(response.notification.request.content.userInfo)
