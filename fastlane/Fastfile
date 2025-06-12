@@ -32,7 +32,7 @@ platform :ios do
       xcodebuild(
         scheme: "template",
         configuration: "Debug",
-        destination: "platform=iOS Simulator,name=iPhone 16",
+        destination: "generic/platform=iOS Simulator",
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg CODE_SIGNING_ALLOWED=NO",
         build: true
       )
@@ -58,7 +58,7 @@ platform :ios do
       xcodebuild(
         scheme: "template",
         configuration: "Release",
-        destination: "platform=iOS Simulator,name=iPhone 16",
+        destination: "generic/platform=iOS Simulator",
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template CODE_SIGNING_ALLOWED=NO",
         build: true
       )
