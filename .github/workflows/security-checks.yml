@@ -260,6 +260,7 @@ jobs:
     - name: Generate security report
       if: always()
       run: |
+        chmod +x scripts/generate_security_report.sh
         ./scripts/generate_security_report.sh
 
     - name: Upload security report
