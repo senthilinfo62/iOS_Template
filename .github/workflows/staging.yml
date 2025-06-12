@@ -61,12 +61,19 @@ jobs:
         key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
         restore-keys: |
           ${{ runner.os }}-spm-
-          
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler: '2.6.9'
+        bundler-cache: true
+
     - name: Install dependencies
       run: |
-        gem install bundler -v '2.6.9'
-        bundle config set --local path 'vendor/bundle'
-        bundle update --bundler
+        echo "📋 Bundle version info:"
+        bundle --version
+        echo "🚀 Installing gems..."
         bundle install
 
     - name: Set script permissions
