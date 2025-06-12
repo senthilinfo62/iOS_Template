@@ -131,5 +131,8 @@ jobs:
         echo "🔐 Ensuring certificates are available..."
         bundle exec fastlane certificates || echo "⚠️ Certificate setup had issues, but continuing..."
         echo "📱 Starting staging build..."
-        bundle exec fastlane staging
+        bundle exec fastlane staging || {
+          echo "⚠️ Manual certificate signing failed. Trying automatic code signing..."
+          bundle exec fastlane staging_auto
+        }
       continue-on-error: true

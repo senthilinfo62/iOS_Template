@@ -60,7 +60,8 @@ platform :ios do
           UI.success("✅ Certificates generated successfully!")
         rescue => gen_ex
           UI.important("⚠️ Certificate generation failed: #{gen_ex}")
-          UI.important("Using locally installed certificates...")
+          UI.important("🔄 Trying automatic code signing...")
+          # Continue with automatic code signing
         end
       end
 
@@ -79,7 +80,7 @@ platform :ios do
             "com.nexware.template.stg" => "match AppStore com.nexware.template.stg"
           }
         },
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template.stg"
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template.stg -allowProvisioningUpdates"
       )
 
       # Upload to TestFlight
@@ -156,7 +157,7 @@ platform :ios do
             "com.nexware.template" => "match AppStore com.nexware.template"
           }
         },
-        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template"
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template -allowProvisioningUpdates"
       )
 
       # Upload to TestFlight
@@ -267,6 +268,42 @@ platform :ios do
       UI.error("❌ Certificate generation failed: #{ex}")
       UI.important("📋 Please check your Apple Developer account permissions")
       UI.important("📋 Ensure you have admin access to the team")
+      raise ex
+    end
+  end
+
+  desc "Build staging with automatic code signing (fallback when certificates fail)"
+  lane :staging_auto do
+    begin
+      UI.message("🔄 Building staging with automatic code signing...")
+
+      # Increment build number
+      increment_build_number(
+        xcodeproj: "template.xcodeproj"
+      )
+
+      # Build with automatic code signing
+      build_app(
+        scheme: "template",
+        configuration: "Debug",
+        export_method: "app-store",
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.nexware.template.stg -allowProvisioningUpdates CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=#{ENV['FASTLANE_TEAM_ID'] || 'YOUR_TEAM_ID'}"
+      )
+
+      # Upload to TestFlight
+      upload_to_testflight(
+        app_identifier: "com.nexware.template.stg",
+        skip_waiting_for_build_processing: true,
+        skip_submission: true,
+        distribute_external: false,
+        notify_external_testers: false,
+        changelog: "Staging build from CI/CD pipeline (automatic signing)"
+      )
+
+      UI.success("✅ Staging build with automatic signing uploaded to TestFlight!")
+
+    rescue => ex
+      UI.error("❌ Automatic signing build failed: #{ex}")
       raise ex
     end
   end
