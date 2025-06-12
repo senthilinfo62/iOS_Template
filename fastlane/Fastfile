@@ -38,12 +38,50 @@ platform :ios do
   desc "Build and upload staging build to TestFlight"
   lane :staging do
     begin
+      # Sync certificates and provisioning profiles
+      match(
+        type: "appstore",
+        app_identifier: "com.ios.template.stg",
+        readonly: true
+      )
+
       # Increment build number
       increment_build_number(
         xcodeproj: "template.xcodeproj"
       )
 
-      # Build the app for iOS Simulator
+      # Build the app for iOS device (required for TestFlight)
+      build_app(
+        scheme: "template",
+        configuration: "Debug",
+        export_method: "app-store",
+        export_options: {
+          provisioningProfiles: {
+            "com.ios.template.stg" => "match AppStore com.ios.template.stg"
+          }
+        },
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg"
+      )
+
+      # Upload to TestFlight
+      upload_to_testflight(
+        app_identifier: "com.ios.template.stg",
+        skip_waiting_for_build_processing: true,
+        skip_submission: true,
+        distribute_external: false,
+        notify_external_testers: false,
+        changelog: "Staging build from CI/CD pipeline"
+      )
+
+      UI.success("✅ Staging build uploaded to TestFlight!")
+
+    rescue => ex
+      UI.important("⚠️ Staging build failed: #{ex}")
+      UI.important("If certificates are not configured, this is expected")
+      UI.important("Run './scripts/setup_certificates.sh' to configure certificates")
+
+      # Fallback: Build for simulator only (for template testing)
+      UI.important("🔄 Falling back to simulator build for testing...")
       xcodebuild(
         scheme: "template",
         configuration: "Debug",
@@ -51,25 +89,57 @@ platform :ios do
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg CODE_SIGNING_ALLOWED=NO",
         build: true
       )
-
-      UI.success("✅ Staging build completed")
-      UI.important("⚠️ TestFlight upload skipped - configure certificates for your app")
-
-    rescue => ex
-      UI.important("⚠️ Staging build failed: #{ex}")
-      UI.important("This is expected for a template project without configured certificates")
+      UI.success("✅ Simulator build completed")
     end
   end
 
   desc "Build and upload production build to TestFlight"
   lane :production do
     begin
+      # Sync certificates and provisioning profiles
+      match(
+        type: "appstore",
+        app_identifier: "com.ios.template",
+        readonly: true
+      )
+
       # Increment build number
       increment_build_number(
         xcodeproj: "template.xcodeproj"
       )
 
-      # Build the app for iOS Simulator
+      # Build the app for iOS device (required for TestFlight)
+      build_app(
+        scheme: "template",
+        configuration: "Release",
+        export_method: "app-store",
+        export_options: {
+          provisioningProfiles: {
+            "com.ios.template" => "match AppStore com.ios.template"
+          }
+        },
+        xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template"
+      )
+
+      # Upload to TestFlight
+      upload_to_testflight(
+        app_identifier: "com.ios.template",
+        skip_waiting_for_build_processing: true,
+        skip_submission: true,
+        distribute_external: false,
+        notify_external_testers: false,
+        changelog: "Production build from CI/CD pipeline"
+      )
+
+      UI.success("✅ Production build uploaded to TestFlight!")
+
+    rescue => ex
+      UI.important("⚠️ Production build failed: #{ex}")
+      UI.important("If certificates are not configured, this is expected")
+      UI.important("Run './scripts/setup_certificates.sh' to configure certificates")
+
+      # Fallback: Build for simulator only (for template testing)
+      UI.important("🔄 Falling back to simulator build for testing...")
       xcodebuild(
         scheme: "template",
         configuration: "Release",
@@ -77,13 +147,7 @@ platform :ios do
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template CODE_SIGNING_ALLOWED=NO",
         build: true
       )
-
-      UI.success("✅ Production build completed")
-      UI.important("⚠️ TestFlight upload skipped - configure certificates for your app")
-
-    rescue => ex
-      UI.important("⚠️ Production build failed: #{ex}")
-      UI.important("This is expected for a template project without configured certificates")
+      UI.success("✅ Simulator build completed")
     end
   end
 
