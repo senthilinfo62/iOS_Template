@@ -88,7 +88,17 @@ jobs:
         MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
       run: |
         echo "🔐 Setting up certificates..."
-        bundle exec fastlane certificates
+        if [ -z "$MATCH_PASSWORD" ] || [ -z "$MATCH_GIT_BASIC_AUTHORIZATION" ]; then
+          echo "⚠️ Certificate secrets not configured. Skipping certificate setup."
+          echo "📋 To configure certificates:"
+          echo "   1. Create repository: https://github.com/senthilinfo62/template-certificates"
+          echo "   2. Add GitHub secrets: MATCH_PASSWORD, MATCH_GIT_BASIC_AUTHORIZATION"
+          echo "   3. Run: bundle exec fastlane match development"
+          echo "   4. Run: bundle exec fastlane match appstore"
+        else
+          echo "🔑 Certificate secrets found. Attempting certificate setup..."
+          bundle exec fastlane certificates || echo "⚠️ Certificate setup failed. Repository may not exist yet."
+        fi
       continue-on-error: true
 
     - name: Build and deploy staging

@@ -39,11 +39,17 @@ platform :ios do
   lane :staging do
     begin
       # Sync certificates and provisioning profiles
-      match(
-        type: "appstore",
-        app_identifier: "com.nexware.template.stg",
-        readonly: true
-      )
+      begin
+        match(
+          type: "appstore",
+          app_identifier: "com.nexware.template.stg",
+          readonly: true
+        )
+      rescue => ex
+        UI.important("⚠️ Match failed: #{ex}")
+        UI.important("Using locally installed certificates...")
+        # Continue with locally installed certificates
+      end
 
       # Increment build number
       increment_build_number(
@@ -97,11 +103,17 @@ platform :ios do
   lane :production do
     begin
       # Sync certificates and provisioning profiles
-      match(
-        type: "appstore",
-        app_identifier: "com.nexware.template",
-        readonly: true
-      )
+      begin
+        match(
+          type: "appstore",
+          app_identifier: "com.nexware.template",
+          readonly: true
+        )
+      rescue => ex
+        UI.important("⚠️ Match failed: #{ex}")
+        UI.important("Using locally installed certificates...")
+        # Continue with locally installed certificates
+      end
 
       # Increment build number
       increment_build_number(
@@ -154,15 +166,31 @@ platform :ios do
   desc "Download certificates and provisioning profiles"
   lane :certificates do
     begin
+      UI.message("🔐 Attempting to sync certificates from repository...")
       match(
         type: "appstore",
         app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
         readonly: true
       )
+      UI.success("✅ Certificates synced successfully!")
     rescue => ex
-      UI.important("⚠️ Certificate setup failed: #{ex}")
-      UI.important("This is expected for a template project without configured certificates")
-      UI.important("Configure match and certificates for your specific app")
+      UI.important("⚠️ Certificate sync failed: #{ex}")
+      UI.important("🔍 Checking for locally installed certificates...")
+
+      # Check if we have valid certificates locally
+      begin
+        result = sh("security find-identity -v -p codesigning | grep 'Apple Distribution' || echo 'No distribution certificates found'", log: false)
+        if result.include?("Apple Distribution")
+          UI.success("✅ Found locally installed distribution certificates!")
+          UI.important("📱 Continuing with local certificates for build...")
+        else
+          UI.error("❌ No valid distribution certificates found locally")
+          UI.important("📋 Please run 'fastlane match appstore' locally to setup certificates")
+        end
+      rescue => cert_ex
+        UI.important("⚠️ Could not check local certificates: #{cert_ex}")
+        UI.important("📋 Please ensure certificates are properly installed")
+      end
     end
   end
 
