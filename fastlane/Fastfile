@@ -17,6 +17,10 @@ default_platform(:ios)
 
 platform :ios do
   before_all do
+    # Auto-sync team ID from Xcode project before any lane
+    UI.message("🔄 Auto-syncing team ID from Xcode project...")
+    sh("../scripts/sync_team_id.sh")
+
     setup_circle_ci if ENV['CI']
   end
 
@@ -32,7 +36,7 @@ platform :ios do
       xcodebuild(
         scheme: "template",
         configuration: "Debug",
-        destination: "platform=iOS Simulator,name=iPhone 16",
+        destination: "generic/platform=iOS Simulator",
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template.stg CODE_SIGNING_ALLOWED=NO",
         build: true
       )
@@ -58,7 +62,7 @@ platform :ios do
       xcodebuild(
         scheme: "template",
         configuration: "Release",
-        destination: "platform=iOS Simulator,name=iPhone 16",
+        destination: "generic/platform=iOS Simulator",
         xcargs: "PRODUCT_BUNDLE_IDENTIFIER=com.ios.template CODE_SIGNING_ALLOWED=NO",
         build: true
       )
@@ -99,6 +103,17 @@ platform :ios do
       UI.important("⚠️ Tests failed or no test targets found: #{ex}")
       UI.important("This is expected for a template project without configured test targets")
       UI.important("Add test targets to your project for proper testing")
+    end
+  end
+
+  desc "Sync team ID from Xcode project to Appfile"
+  lane :sync_team do
+    begin
+      UI.message("🔍 Syncing team ID from Xcode project...")
+      sh("../scripts/sync_team_id.sh")
+      UI.success("✅ Team ID synced successfully!")
+    rescue => ex
+      UI.error("❌ Failed to sync team ID: #{ex}")
     end
   end
 
