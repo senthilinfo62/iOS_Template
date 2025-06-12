@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var viewModel: SettingsViewModel
-    @StateObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         GeometryReader { geometry in
@@ -18,7 +17,7 @@ struct SettingsView: View {
                     ForEach(viewModel.availableThemes, id: \.rawValue) { theme in
                         ThemeRow(
                             theme: theme,
-                            isSelected: theme == themeManager.currentTheme
+                            isSelected: theme == viewModel.currentTheme
                         ) {
                             viewModel.selectTheme(theme)
                         }
@@ -31,7 +30,7 @@ struct SettingsView: View {
                     HStack {
                         Text("Current Theme")
                         Spacer()
-                        Text(themeManager.currentTheme.displayName)
+                        Text(viewModel.currentTheme.displayName)
                             .foregroundColor(.secondary)
                     }
                 } header: {
