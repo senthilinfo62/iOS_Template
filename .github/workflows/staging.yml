@@ -64,7 +64,9 @@ jobs:
           
     - name: Install dependencies
       run: |
-        gem install bundler -v '~> 2.0'
+        gem install bundler -v '2.6.9'
+        bundle config set --local path 'vendor/bundle'
+        bundle update --bundler
         bundle install
 
     - name: Set script permissions
