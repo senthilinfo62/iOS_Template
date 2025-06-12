@@ -108,7 +108,10 @@ jobs:
           echo "🔧 First trying to sync existing certificates..."
           bundle exec fastlane certificates || {
             echo "⚠️ Certificate sync failed. Attempting to generate new certificates..."
-            bundle exec fastlane generate_certificates || echo "⚠️ Certificate generation failed. Will use local certificates if available."
+            bundle exec fastlane generate_certificates || {
+              echo "⚠️ Certificate generation failed. Attempting cleanup and regeneration..."
+              bundle exec fastlane cleanup_certificates || echo "⚠️ Certificate cleanup failed. Will use local certificates if available."
+            }
           }
         fi
       continue-on-error: true

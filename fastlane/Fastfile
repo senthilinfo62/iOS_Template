@@ -247,7 +247,9 @@ platform :ios do
         app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
         readonly: false,
         force: true,  # Force regeneration
-        force_for_new_devices: true
+        force_for_new_devices: true,
+        skip_confirmation: true,  # Skip manual confirmation
+        shallow_clone: true  # Faster cloning
       )
       UI.success("✅ App Store certificates generated successfully!")
 
@@ -265,6 +267,45 @@ platform :ios do
       UI.error("❌ Certificate generation failed: #{ex}")
       UI.important("📋 Please check your Apple Developer account permissions")
       UI.important("📋 Ensure you have admin access to the team")
+      raise ex
+    end
+  end
+
+  desc "Clean up and regenerate certificates (use when hitting certificate limits)"
+  lane :cleanup_certificates do
+    UI.message("🧹 Cleaning up old certificates and regenerating...")
+
+    begin
+      # Force regenerate App Store certificates (will revoke old ones)
+      match(
+        type: "appstore",
+        app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
+        readonly: false,
+        force: true,  # This will revoke existing certificates
+        force_for_new_devices: true,
+        skip_confirmation: true,
+        shallow_clone: true
+      )
+      UI.success("✅ App Store certificates cleaned up and regenerated!")
+
+      # Also regenerate development certificates
+      match(
+        type: "development",
+        app_identifier: ["com.nexware.template", "com.nexware.template.stg"],
+        readonly: false,
+        force: true,
+        force_for_new_devices: true,
+        skip_confirmation: true,
+        shallow_clone: true
+      )
+      UI.success("✅ Development certificates cleaned up and regenerated!")
+
+    rescue => ex
+      UI.error("❌ Certificate cleanup failed: #{ex}")
+      UI.important("📋 Manual cleanup required:")
+      UI.important("   1. Go to https://developer.apple.com/account/resources/certificates/list")
+      UI.important("   2. Revoke old iOS Distribution certificates")
+      UI.important("   3. Run this lane again")
       raise ex
     end
   end
